@@ -1,0 +1,127 @@
+classDiagram
+    class PersonalProfile {
+      +UUID profileId
+      +UUID userId
+      +long version
+      +editSection(section, mask, expectedVersion)
+    }
+    class ConditionSection {
+      +UUID sectionId
+      +SectionType type
+      +long version
+      +UUID currentRevisionId
+    }
+    class ConditionRevision {
+      +UUID revisionId
+      +long revisionNo
+      +Instant savedAt
+      +KnowledgeState restrictionsState
+      +UUID routineRevisionId
+    }
+    class AvailabilityWindow {
+      +int weekday
+      +int startMinute
+      +int endMinute
+      +int endDayOffset
+    }
+    class RoutineSleepWindow {
+      +KnowledgeState state
+      +int bedtimeMinute
+      +int wakeMinute
+      +int wakeDayOffset
+      +String shiftNotes
+    }
+    class RoutineSleepRevision {
+      +UUID revisionId
+      +UUID profileId
+      +long revisionNo
+      +Instant savedAt
+    }
+    class FitnessConditions {
+      +String trainingFoundation
+      +String venueDescription
+    }
+    class LearningConditions {
+      +String foundation
+    }
+    class ModuleResource {
+      +ResourceType type
+      +String name
+      +String description
+    }
+    class LongTermRestriction {
+      +RestrictionKind kind
+      +String description
+    }
+    class BodyMeasurement {
+      +UUID factId
+      +UUID userId
+      +long version
+      +UUID currentRevisionId
+      +FactStatus status
+      +correct(expectedVersion, time, values)
+      +remove(expectedVersion)
+    }
+    class MeasurementRevision {
+      +UUID revisionId
+      +long revisionNo
+      +Instant observedAt
+      +LocalDate businessDate
+      +RevisionOperation operation
+    }
+    class MeasurementValue {
+      +MetricType type
+      +String site
+      +BigDecimal value
+      +MeasurementUnit unit
+    }
+    class DailyBodyState {
+      +UUID factId
+      +UUID userId
+      +long version
+      +UUID currentRevisionId
+      +FactStatus status
+      +correct(expectedVersion, date, report)
+      +remove(expectedVersion)
+    }
+    class BodyStateRevision {
+      +UUID revisionId
+      +long revisionNo
+      +Instant observedAt
+      +LocalDate businessDate
+      +FatigueLevel fatigue
+      +MentalState mental
+    }
+    class DiscomfortReport {
+      +KnowledgeState state
+      +DiscomfortIntensity intensity
+      +String description
+    }
+    class DailyBodyStateSlot {
+      +UUID userId
+      +LocalDate businessDate
+      +UUID currentFactId
+    }
+    class SourceScope {
+      +ScopeType type
+      +String key
+      +long version
+    }
+    PersonalProfile "1" *-- "0..3" ConditionSection
+    ConditionSection "1" *-- "1..*" ConditionRevision
+    ConditionRevision "1" *-- "0..*" AvailabilityWindow
+    PersonalProfile "1" *-- "0..*" RoutineSleepRevision
+    ConditionRevision "0..*" --> "0..1" RoutineSleepRevision : immutable component reference
+    RoutineSleepRevision "1" *-- "1" RoutineSleepWindow
+    ConditionRevision "1" *-- "0..1" FitnessConditions
+    ConditionRevision "1" *-- "0..1" LearningConditions
+    ConditionRevision "1" *-- "0..*" ModuleResource
+    ConditionRevision "1" *-- "0..*" LongTermRestriction
+    BodyMeasurement "1" *-- "1..*" MeasurementRevision
+    MeasurementRevision "1" *-- "0..*" MeasurementValue
+    DailyBodyState "1" *-- "1..*" BodyStateRevision
+    BodyStateRevision "1" *-- "1" DiscomfortReport
+    DailyBodyStateSlot --> DailyBodyState : current identity
+    SourceScope ..> ConditionSection : tracks changes
+    SourceScope ..> BodyMeasurement : tracks day
+    SourceScope ..> DailyBodyState : tracks day

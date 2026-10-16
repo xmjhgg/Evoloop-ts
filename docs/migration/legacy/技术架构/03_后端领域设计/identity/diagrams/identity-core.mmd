@@ -1,0 +1,106 @@
+classDiagram
+    class UserAccount {
+        UserId userId
+        AccountStatus status
+        long version
+        long authorizationVersion
+        long deletionEpoch
+        changeAuthorization()
+        beginClosure()
+        verifyProcessing()
+    }
+    class WeChatIdentity {
+        IdentityId identityId
+        AppId appId
+        Digest openIdLookupHash
+    }
+    class PasswordIdentity {
+        IdentityId identityId
+        UserId userId
+        String username
+        String passwordHash
+        String status
+        long version
+    }
+    class AuthorizationGrant {
+        GrantId grantId
+        ProcessingPurpose purpose
+        GrantDecision decision
+        long currentRevisionNo
+        decide()
+    }
+    class AuthorizationRevision {
+        RevisionId revisionId
+        long revisionNo
+        GrantDecision decision
+        PurposeNotice noticeSnapshot
+        Instant decidedAt
+    }
+    class UserSession {
+        SessionId sessionId
+        UserId userId
+        SessionStatus status
+        Instant expiresAt
+        revoke()
+    }
+    class DataRequest {
+        DataRequestId requestId
+        UserId userId
+        DataRequestType type
+        DataRequestStatus status
+        long acceptedEpoch
+        long version
+        reportStage()
+        recalculateStatus()
+    }
+    class ScopeSelection {
+        ModuleCode module
+        DataClass dataClass
+        SelectionKind selectionKind
+        BusinessDateRange dateRange
+        boolean includeImages
+        boolean includeDerived
+    }
+    class ObjectReference {
+        ObjectType objectType
+        ObjectId objectId
+        RevisionId revisionId
+    }
+    class RequestStage {
+        ModuleCode ownerModule
+        StageCode stage
+        StageStatus status
+        long latestReceiptVersion
+    }
+    class StageReceipt {
+        long receiptVersion
+        Digest contentHash
+        StageStatus status
+        ResidualItems residuals
+    }
+    class ExportArtifact {
+        ObjectKey controlledKey
+        Digest digest
+        long producedEpoch
+        Instant expiresAt
+    }
+    class ProcessingContext {
+        ContextKind kind
+        UserId userId
+        ResourceScope scope
+        long expectedAuthorizationVersion
+        long expectedDeletionEpoch
+        Instant expiresAt
+    }
+    UserAccount "1" *-- "0..*" WeChatIdentity
+    UserAccount "1" *-- "0..1" PasswordIdentity
+    UserAccount "1" *-- "0..3" AuthorizationGrant
+    AuthorizationGrant "1" *-- "1..*" AuthorizationRevision
+    UserSession --> UserAccount : userId reference
+    DataRequest --> UserAccount : userId reference
+    DataRequest "1" *-- "1..*" ScopeSelection
+    ScopeSelection "1" *-- "0..*" ObjectReference
+    DataRequest "1" *-- "1..*" RequestStage
+    RequestStage "1" *-- "0..*" StageReceipt
+    DataRequest "1" *-- "0..*" ExportArtifact
+    ProcessingContext --> UserAccount : eligibility

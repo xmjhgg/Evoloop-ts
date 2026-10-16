@@ -1,0 +1,2 @@
+# Preserve archived document bytes for the recorded SHA-256 checks.
+docs/migration/legacy/** -text
