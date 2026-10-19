@@ -1,0 +1,41 @@
+{
+  "startedAt": "2026-10-17T14:43:36.740Z",
+  "completedAt": "2026-10-17T14:44:04.724Z",
+  "outcome": "PASSED",
+  "steps": [
+    {
+      "command": "pnpm --filter @evoloop/mobile typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter @evoloop/mobile check:expo",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter @evoloop/mobile exec expo config --type introspect --json",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter @evoloop/mobile export:ios",
+      "exitCode": 0
+    }
+  ],
+  "configuration": {
+    "sqlCipher": true,
+    "keychain": true,
+    "fileProtection": "NSFileProtectionComplete",
+    "bundleIdentifier": "com.evoloop.two"
+  },
+  "bundle": {
+    "path": "apps/mobile/dist/_expo/static/js/ios/index-dc7e37dff580c2f2ca2ceb4fc410bbe8.hbc",
+    "bytes": 2540825,
+    "sha256": "5b5869e424fbefc9dcd3d09fb15577f9d26a8b0422bc86104524dc5fb919e4a5"
+  },
+  "notRun": [
+    "Xcode/CocoaPods native build",
+    "iOS simulator and physical device",
+    "native SQLCipher/Keychain/biometric/camera/files",
+    "real AI provider",
+    "TestFlight and App Store"
+  ]
+}

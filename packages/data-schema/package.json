@@ -1,0 +1,1 @@
+{"name":"@evoloop/data-schema","version":"0.1.0","private":true,"type":"module","exports":{"./replication":"./src/replication/public.ts"},"dependencies":{"zod":"4.1.12"}}

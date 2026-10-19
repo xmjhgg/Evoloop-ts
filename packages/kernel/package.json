@@ -1,0 +1,1 @@
+{"name":"@evoloop/kernel","version":"0.1.0","private":true,"type":"module","exports":{".":"./src/public.ts"},"dependencies":{"@noble/hashes":"2.0.1"}}

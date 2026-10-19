@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "username": {
+      "minLength": 1,
+      "maxLength": 64,
+      "type": "string"
+    },
+    "password": {
+      "minLength": 1,
+      "maxLength": 128,
+      "type": "string"
+    },
+    "device": {
+      "minLength": 0,
+      "maxLength": 120,
+      "type": "string"
+    }
+  },
+  "required": [
+    "username",
+    "password",
+    "device"
+  ],
+  "additionalProperties": false
+}

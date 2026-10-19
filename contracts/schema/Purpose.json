@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "aiAllowed": {
+      "type": "boolean"
+    },
+    "healthAllowed": {
+      "type": "boolean"
+    },
+    "noticeVersion": {
+      "type": "string"
+    },
+    "expectedPurposeVersion": {
+      "type": "string",
+      "maxLength": 30,
+      "pattern": "^(0|[1-9]\\d*)$"
+    }
+  },
+  "required": [
+    "aiAllowed",
+    "healthAllowed",
+    "noticeVersion",
+    "expectedPurposeVersion"
+  ],
+  "additionalProperties": false
+}

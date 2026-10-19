@@ -1,0 +1,19 @@
+{
+  "payloadSchemaVersion": "documents-v1",
+  "tables": [
+    "profile.condition",
+    "profile.observation",
+    "planning.goal",
+    "planning.week",
+    "planning.guard",
+    "planning.candidate",
+    "execution.fact",
+    "execution.food-draft",
+    "review.document",
+    "review.adjustment",
+    "system.token",
+    "system.revision"
+  ],
+  "canonical": "evoloop-canonical-v1",
+  "numericRepresentation": "decimal-strings"
+}

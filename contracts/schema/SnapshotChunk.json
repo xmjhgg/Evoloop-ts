@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+    },
+    "rows": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "profile.condition",
+          "profile.observation",
+          "planning.goal",
+          "planning.week",
+          "planning.guard",
+          "planning.candidate",
+          "execution.fact",
+          "execution.food-draft",
+          "review.document",
+          "review.adjustment",
+          "system.token",
+          "system.revision"
+        ]
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "id": {
+              "minLength": 1,
+              "maxLength": 240,
+              "type": "string"
+            },
+            "version": {
+              "type": "string",
+              "maxLength": 30,
+              "pattern": "^(0|[1-9]\\d*)$"
+            },
+            "revisionId": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "data": {
+              "minLength": 2,
+              "maxLength": 1048576,
+              "type": "string"
+            }
+          },
+          "required": [
+            "accountId",
+            "id",
+            "version",
+            "revisionId",
+            "data"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "required": [
+    "accountId",
+    "rows"
+  ],
+  "additionalProperties": false
+}

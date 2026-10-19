@@ -1,0 +1,53 @@
+{
+  "name": "evoloop-two",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.16.0 <25"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p packages/storage-indexeddb/tsconfig.json && tsc -p tsconfig.tests.json && pnpm --filter @evoloop/mobile typecheck",
+    "lint": "node tooling/checks/source.mjs",
+    "check:deps": "node tooling/checks/dependencies.mjs",
+    "check:ui": "node tooling/checks/size-and-pages.mjs",
+    "check:format:mobile": "prettier --check --config apps/mobile/.prettierrc.json \"apps/mobile/src/**/*.{ts,tsx}\" \"packages/client-model/src/*.ts\" \"packages/design-tokens/src/*.ts\" \"tests/mobile/*.ts\"",
+    "generate": "tsx tooling/generators/contracts.ts",
+    "check:generated": "tsx tooling/generators/contracts.ts --check",
+    "check:cloud-artifact": "node tooling/checks/cloud-artifact.mjs",
+    "check:java-deps": "node tooling/checks/java-dependencies.mjs",
+    "test:unit": "tsx --test tests/unit/*.test.ts",
+    "test:mobile": "tsx --test tests/mobile/*.test.ts",
+    "start:ios": "pnpm --filter @evoloop/mobile start",
+    "build:ios:bundle": "pnpm --filter @evoloop/mobile export:ios",
+    "test:integration:local": "tsx --test tests/integration/*.test.ts",
+    "test:integration": "pnpm test:integration:local && pnpm test:cloud",
+    "test:compatibility": "tsx --test tests/compatibility/*.test.ts",
+    "test:recovery": "tsx --test tests/recovery/*.test.ts",
+    "test:cloud": "node scripts/cloud.mjs verify",
+    "test:e2e:cloud": "tsx --test tests/e2e/*.test.ts",
+    "build:cloud": "node scripts/cloud.mjs package -DskipTests",
+    "start:cloud": "node scripts/cloud.mjs spring-boot:run",
+    "verify": "pnpm typecheck && pnpm lint && pnpm check:deps && pnpm check:ui && pnpm check:format:mobile && pnpm check:generated && pnpm test:unit && pnpm test:mobile && pnpm test:integration && pnpm test:compatibility && pnpm test:recovery && pnpm check:cloud-artifact && pnpm check:java-deps && pnpm test:e2e:cloud",
+    "verify:ios": "node scripts/verify-ios.mjs"
+  },
+  "devDependencies": {
+    "@evoloop/client-business-core": "workspace:*",
+    "@evoloop/client-model": "workspace:*",
+    "@evoloop/contracts": "workspace:*",
+    "@evoloop/data-schema": "workspace:*",
+    "@evoloop/design-tokens": "workspace:*",
+    "@evoloop/kernel": "workspace:*",
+    "@evoloop/local-runtime": "workspace:*",
+    "@evoloop/storage-indexeddb": "workspace:*",
+    "@evoloop/storage-journal": "workspace:*",
+    "@evoloop/storage-sqlite": "workspace:*",
+    "@types/node": "22.15.30",
+    "fake-indexeddb": "6.2.4",
+    "prettier": "3.6.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "zod": "4.1.12"
+  }
+}

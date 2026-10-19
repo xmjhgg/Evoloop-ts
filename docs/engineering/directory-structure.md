@@ -1,6 +1,6 @@
 # 工程目录与分工
 
-根目录使用实际项目名 `EvoLoop-two`。与原 15 规范的差异仅为 Java 云端目录/构建、跨语言契约产物，以及本阶段仅建目录文档。
+根目录使用项目名 `EvoLoop-two`。2026-10-17 已实现本地核心、存储适配、Java 云服务及苹果端页面/平台装配；小程序目录仍为预留位置。当前差异见[苹果端验证记录](../verification/20261017-ios-client.md)、[页面地图](page-map.md)与 [ADR-005](../architecture/adr/ADR-005-ios-client.md)。
 
 ```text
 EvoLoop-two/
@@ -50,7 +50,7 @@ EvoLoop-two/
 └─ .github/workflows/
 ```
 
-空叶目录用 `.gitkeep` 保留。未创建 `.java`、`.ts`、`.tsx`、SQL、package.json、pom.xml、锁文件或 CI YAML。未来初始化再补 manifests、严格 TS 配置、受控 exports、pnpm 工作区、Java Maven 与检查脚本；本轮不提前写空壳命令。
+未实现的页面/平台叶目录仍以 `.gitkeep` 保留；已实现部分有真实源码、严格 TS 配置、受控 exports、锁文件、Maven、数据库迁移、检查和 CI。只有存在源码且有验证证据的模块才计入交付。
 
 ## 1. 客户端分层
 

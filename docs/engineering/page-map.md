@@ -1,6 +1,6 @@
 # 页面职责地图
 
-状态：目标模块映射，所有组件、Hook、Gateway 和验证均待实现。路由名称为工程规划，精确路由配置后续落实。两端 screens/features 名称对应，UI 分别实现。
+2026-10-17：苹果客户端已新增 8 个实际 Screen 与独立 Feature/Model、Gateway、平台适配。下表列页面职责，下方列实际代码；小程序仍是目录目标。静态映射与 Hermes 构建不能代替 iOS 真机交互验收。
 
 | 页面/路由槽 | Screen | 区块 | 独立 Feature | Gateway / 共享能力 | 关键交互验收 |
 | --- | --- | --- | --- | --- | --- |
@@ -13,4 +13,17 @@
 | register | RegisterScreen | 用户名、密码/确认、提交结果 | account-register | Identity OnlineGateway | 唯一账号；注册失败无半账户；不创建领域表 |
 | history | HistoryScreen | 日期/目标筛选、修订、原基准与来源 | 各事实纠正功能、复盘查看 | 本地四域历史查询与原命令 | 旧版本只读；纠正追加修订；移日基准失配明示 |
 
-每个页面实现时需补实际文件、Feature Hook/Model、Gateway 方法、命令/查询代码及测试证据，`check:ui` 应核验实际映射和禁止依赖，不能只验证此表有一行。
+## 苹果端实际映射
+
+| 实际 Screen | Feature / Model | Gateway / 核心入口 | 自动验证 |
+| --- | --- | --- | --- |
+| apps/mobile/src/screens/today/TodayScreen.tsx | today-overview/ActivitySection、training-record/model、sleep-record/model、food-draft/model、intake-confirmation、review-note/ReviewSection | gateways/local、queries；workspace.todayWorkspace；execution / review 命令 | tests/mobile/workflows.test.ts、food-and-http.test.ts |
+| apps/mobile/src/screens/plan/PlanScreen.tsx | goal-editor/model、week-draft-editor/model、plan-publication、ai-candidate/GeneratePlan | local.plans / command；planning 公开入口 | workflows.test.ts、ai-and-assets.test.ts |
+| apps/mobile/src/screens/review/ReviewScreen.tsx | review-note、review-confirmation、review-adjustment | local.reviews；review 范围确认与未来调整命令 | workflows.test.ts、ai-and-assets.test.ts；核心 candidates-and-adjustments.test.ts |
+| apps/mobile/src/screens/profile/ProfileScreen.tsx | conditions-editor、measurement-record | queries.details；profile 掩码更新与观测命令 | 核心 profile-and-scopes.test.ts；设备表单待验收 |
+| apps/mobile/src/screens/settings/SettingsScreen.tsx | sync-status、conflict-resolution、backup-restore、account-login/PurposeSection | sync-transport、sync-attachments、backup；本地冲突/备份；identity notice / purposes | durability-and-backup.test.ts、ai-and-assets.test.ts；Java IdentityTest |
+| apps/mobile/src/screens/login/LoginScreen.tsx | account-login/AuthForm | gateways/identity；platform/security/vault；bootstrap/open-account | food-and-http.test.ts；钥匙串解锁待 iOS 验收 |
+| apps/mobile/src/screens/register/RegisterScreen.tsx | account-login/AuthForm（注册模式） | identity.register；受控注册 Schema | Java IdentityTest；实际键盘/网络待设备验收 |
+| apps/mobile/src/screens/history/HistoryScreen.tsx | history/FactHistory、原记录纠正 Feature | queries.historyIndex / history；四域公开历史查询 | workflows.test.ts；核心历史测试；大历史性能待实测 |
+
+入口为 apps/mobile/src/app/App.tsx；路由仅在 app/navigation/WorkspaceNavigation.tsx 组合。ThemeProvider、WorkspaceProvider、useAccount 分管外观、订阅/表单上下文和账户生命周期。原子提交由 CommandBus / SqliteStore 实现，Screen 不直接读写数据库或请求 HTTP。

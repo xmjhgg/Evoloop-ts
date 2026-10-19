@@ -1,5 +1,15 @@
 # 跨语言契约、结构与版本
 
+2026-10-17 实现说明：唯一协议来源为 `packages/contracts/src/schemas.ts` 与 `operations.ts`，复制外层来源为 `packages/data-schema/src/replication/public.ts`。运行 `pnpm generate` 发布根 `contracts/schema`、`openapi`、`java/Wire.java` 与黄金样本；`check:generated` 重算后逐字比较。下表的“未来”栏保留原设计职责，其中关系行/DDL 生成尚未启用；当前采用 [ADR-004](../architecture/adr/ADR-004-document-storage-baseline.md) 的聚合文档映射。
+
+当前版本：clientCoreVersion=0.1.0，localSchema/stateFormatVersion=1，localCommandVersion=1，syncProtocolVersion=1，payloadSchemaVersion=documents-v1，backupFormatVersion=1，身份 API=/api/v2，AI 输出=candidate-v1。没有已发布的 N-1 支持；旧 rows-v1/方法名队列/备份保留并明确拒绝直接导入，不能宣称已迁移。
+
+苹果端本轮版本：Expo 57.0.30、React Native 0.86.3、React 19.2.3、移动端 TS 6.0.3（纯包检查仍为 5.9.3），准确依赖见锁文件。mobileBackupFormat=1 外层封装共享核心备份、服务原点、照片与 AI 书签，仅用于当前客户端。用途协议增加 PurposeNotice，以及 Purpose.noticeVersion / expectedPurposeVersion；尚无外部已发布客户端，旧请求缺字段明确失败。用户已取消当前旧数据迁移任务。
+
+Java Maven 仅复制已发布 `contracts/java` 到 target/generated-sources/contracts 编译，JSON Schema 复制到 protocol 资源并执行传输校验。Java 构建不加载 TS；协议生成工具不加载核心或 testing。
+
+冻结的规范字节：仅 null、布尔、字符串、数组和普通对象；拒绝 JSON number、undefined 和孤立代理字符。字符串不做 Unicode 规范化；对象按 UTF-16 键排序，数组顺序保持，使用 JSON 字符串转义和 UTF-8，SHA-256 小写十六进制。DECIMAL/BIGINT/版本均用规范字符串；业务日期为上海日期，Instant 为 UTC。TS/Java 黄金样本实际比较精度、Unicode、null、日期、键序与 tombstone。
+
 ## 1. 唯一来源与产物
 
 | 内容 | 唯一来源（未来） | 发布/生成位置（未来） | 消费方 |

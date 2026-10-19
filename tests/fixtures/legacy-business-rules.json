@@ -1,0 +1,10 @@
+[
+  {"id":"training-exact-decimal","operation":"recordTraining","command":{"businessDate":"2026-10-15","status":"COMPLETED","durationMinutes":30.125},"expectedCode":null},
+  {"id":"training-negative","operation":"recordTraining","command":{"businessDate":"2026-10-15","status":"COMPLETED","durationMinutes":-1},"expectedCode":"INVALID_QUANTITY"},
+  {"id":"training-not-performed-with-actual","operation":"recordTraining","command":{"businessDate":"2026-10-15","status":"NOT_PERFORMED","durationMinutes":5},"expectedCode":"NOT_PERFORMED_HAS_ACTUAL"},
+  {"id":"learning-duration","operation":"recordLearning","command":{"businessDate":"2026-10-15","status":"COMPLETED","durationMinutes":20},"expectedCode":null},
+  {"id":"learning-empty","operation":"recordLearning","command":{"businessDate":"2026-10-15","status":"COMPLETED"},"expectedCode":"EMPTY_LEARNING_RECORD"},
+  {"id":"learning-negative","operation":"recordLearning","command":{"businessDate":"2026-10-15","status":"COMPLETED","durationMinutes":-1},"expectedCode":"INVALID_QUANTITY"},
+  {"id":"sleep-cross-midnight","operation":"recordSleep","command":{"businessDate":"2026-10-15","bedMinute":1380,"wakeMinute":420},"expectedCode":null},
+  {"id":"future-record","operation":"recordTraining","command":{"businessDate":"2026-10-16","status":"COMPLETED","durationMinutes":20},"expectedCode":"FUTURE_FACT"}
+]

@@ -1,0 +1,57 @@
+name: iOS client
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck && pnpm lint && pnpm check:deps && pnpm check:ui && pnpm check:format:mobile && pnpm check:generated
+      - run: pnpm test:mobile
+      - run: pnpm verify:ios
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-hermes
+          path: |
+            apps/mobile/dist/
+            docs/verification/evidence/20261017-ios-build.json
+  native-simulator-build:
+    needs: client
+    runs-on: macos-26
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.4.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm install --frozen-lockfile
+      - run: xcodebuild -version
+      - run: pnpm exec expo prebuild --platform ios --no-install
+        working-directory: apps/mobile
+      - run: gem install cocoapods -v 1.16.2 --no-document
+      - run: pod install
+        working-directory: apps/mobile/ios
+      - run: xcodebuild -workspace ios/EvoLoop.xcworkspace -scheme EvoLoop -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        working-directory: apps/mobile
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-native-build-logs
+          path: apps/mobile/build/Logs/

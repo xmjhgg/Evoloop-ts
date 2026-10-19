@@ -1,0 +1,1 @@
+{"name":"@evoloop/contracts","version":"0.1.0","private":true,"type":"module","exports":{".":"./src/public.ts","./schemas":"./src/schemas.ts"},"dependencies":{"@evoloop/kernel":"workspace:*","@evoloop/data-schema":"workspace:*","zod":"4.1.12"}}

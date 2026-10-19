@@ -1,0 +1,2271 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "EvoLoop Java cloud",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v2/identity/accounts": {
+      "post": {
+        "description": "Register one account without a session or business data",
+        "security": [],
+        "responses": {
+          "201": {
+            "description": "Register one account without a session or business data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Registration"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/identity/sessions/password": {
+      "post": {
+        "description": "Sign in and issue a random bearer credential",
+        "security": [],
+        "responses": {
+          "201": {
+            "description": "Sign in and issue a random bearer credential",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/identity/session": {
+      "get": {
+        "description": "Read the authenticated account and purpose snapshot",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read the authenticated account and purpose snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSnapshot"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        }
+      },
+      "delete": {
+        "description": "Revoke the current credential",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Revoke the current credential"
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        }
+      }
+    },
+    "/api/v2/identity/purposes": {
+      "put": {
+        "description": "Set explicit purposes under the configured notice and invalidate old AI leases",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Set explicit purposes under the configured notice and invalidate old AI leases",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurposeResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Purpose"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/identity/purpose-notice": {
+      "get": {
+        "description": "Read configured purpose notice; unavailable until operator supplies actual version and text",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read configured purpose notice; unavailable until operator supplies actual version and text",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurposeNotice"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        }
+      }
+    },
+    "/api/v2/identity/account/deactivate": {
+      "post": {
+        "description": "Disable owned account access and sessions while retaining data; not a full erasure request",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Disable owned account access and sessions while retaining data; not a full erasure request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeactivationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Deactivate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/sync/capabilities": {
+      "get": {
+        "description": "Read protocol versions, limits and account head",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read protocol versions, limits and account head",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Capabilities"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        }
+      }
+    },
+    "/api/v2/sync/batches": {
+      "post": {
+        "description": "Store opaque canonical changes or persist an immutable CONFLICT receipt",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Store opaque canonical changes or persist an immutable CONFLICT receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncReceipt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncBatch"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Pull up to 100 consecutive envelopes after afterSequence",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pull up to 100 consecutive envelopes after afterSequence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PullEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "afterSequence",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)$",
+              "default": "0"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v2/sync/snapshots": {
+      "post": {
+        "description": "Stage a complete chunk manifest; not yet recoverable",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stage a complete chunk manifest; not yet recoverable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Snapshot"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/sync/snapshots/{id}": {
+      "get": {
+        "description": "Read an owned COMPLETE snapshot",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read an owned COMPLETE snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v2/sync/snapshots/{id}/complete": {
+      "post": {
+        "description": "Publish a snapshot only at the current account head",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publish a snapshot only at the current account head",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v2/sync/roots": {
+      "post": {
+        "description": "Initialize an unused account root from snapshotId",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Initialize an unused account root from snapshotId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RootRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/sync/attachments": {
+      "post": {
+        "description": "Store a durable owned technical attachment",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Store a durable owned technical attachment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Asset"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/sync/attachments/{id}": {
+      "get": {
+        "description": "Read an owned attachment by immutable id",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read an owned attachment by immutable id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v2/ai/tasks": {
+      "post": {
+        "description": "Queue a candidate task; business acceptance stays on the client",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Queue a candidate task; business acceptance stays on the client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiSubmission"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/ai/tasks/{id}": {
+      "get": {
+        "description": "Read technical task status and a candidate, including frozen model/prompt/source metadata",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read technical task status and a candidate, including frozen model/prompt/source metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiTask"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "description": "Cancel with expectedVersion; late results cannot resurrect a cancelled task",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancel with expectedVersion; late results cannot resurrect a cancelled task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "expectedVersion",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v2/ai/assets": {
+      "post": {
+        "description": "Upload an owned image for AI with a 24-hour TTL",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Upload an owned image for AI with a 24-hour TTL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PAYLOAD_INVALID"
+          },
+          "401": {
+            "description": "SESSION_REQUIRED / SESSION_EXPIRED"
+          },
+          "403": {
+            "description": "PURPOSE_REQUIRED / OWNER_MISMATCH"
+          },
+          "409": {
+            "description": "Version, immutable ID or recovery conflict"
+          },
+          "422": {
+            "description": "Protocol validation or digest failure"
+          },
+          "429": {
+            "description": "RATE_LIMITED"
+          },
+          "503": {
+            "description": "Dependency unavailable; no mock fallback"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Asset"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SyncBatch": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "protocolVersion": {
+            "type": "string",
+            "const": "1"
+          },
+          "batchId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedHeadVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "payloadSchemaVersion": {
+            "type": "string",
+            "const": "documents-v1"
+          },
+          "changes": {
+            "minItems": 1,
+            "maxItems": 2000,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "table": {
+                  "type": "string",
+                  "enum": [
+                    "profile.condition",
+                    "profile.observation",
+                    "planning.goal",
+                    "planning.week",
+                    "planning.guard",
+                    "planning.candidate",
+                    "execution.fact",
+                    "execution.food-draft",
+                    "review.document",
+                    "review.adjustment",
+                    "system.token",
+                    "system.revision"
+                  ]
+                },
+                "id": {
+                  "minLength": 1,
+                  "maxLength": 240,
+                  "type": "string"
+                },
+                "before": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "id": {
+                          "minLength": 1,
+                          "maxLength": 240,
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string",
+                          "maxLength": 30,
+                          "pattern": "^(0|[1-9]\\d*)$"
+                        },
+                        "revisionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "data": {
+                          "minLength": 2,
+                          "maxLength": 1048576,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "accountId",
+                        "id",
+                        "version",
+                        "revisionId",
+                        "data"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "after": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "id": {
+                          "minLength": 1,
+                          "maxLength": 240,
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string",
+                          "maxLength": 30,
+                          "pattern": "^(0|[1-9]\\d*)$"
+                        },
+                        "revisionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "data": {
+                          "minLength": 2,
+                          "maxLength": 1048576,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "accountId",
+                        "id",
+                        "version",
+                        "revisionId",
+                        "data"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "table",
+                "id",
+                "before",
+                "after"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "payloadDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "protocolVersion",
+          "batchId",
+          "deviceId",
+          "expectedHeadVersion",
+          "payloadSchemaVersion",
+          "changes",
+          "payloadDigest"
+        ],
+        "additionalProperties": false
+      },
+      "SyncReceipt": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "inputDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "STORED",
+              "CONFLICT",
+              "REJECTED"
+            ]
+          },
+          "serverSequence": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 30,
+                "pattern": "^(0|[1-9]\\d*)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "currentHeadVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "batchId",
+          "inputDigest",
+          "status",
+          "serverSequence",
+          "currentHeadVersion",
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "PullEnvelope": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "envelopes": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "serverSequence": {
+                  "type": "string",
+                  "maxLength": 30,
+                  "pattern": "^(0|[1-9]\\d*)$"
+                },
+                "batch": {
+                  "type": "object",
+                  "properties": {
+                    "protocolVersion": {
+                      "type": "string",
+                      "const": "1"
+                    },
+                    "batchId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "deviceId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "expectedHeadVersion": {
+                      "type": "string",
+                      "maxLength": 30,
+                      "pattern": "^(0|[1-9]\\d*)$"
+                    },
+                    "payloadSchemaVersion": {
+                      "type": "string",
+                      "const": "documents-v1"
+                    },
+                    "changes": {
+                      "minItems": 1,
+                      "maxItems": 2000,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "table": {
+                            "type": "string",
+                            "enum": [
+                              "profile.condition",
+                              "profile.observation",
+                              "planning.goal",
+                              "planning.week",
+                              "planning.guard",
+                              "planning.candidate",
+                              "execution.fact",
+                              "execution.food-draft",
+                              "review.document",
+                              "review.adjustment",
+                              "system.token",
+                              "system.revision"
+                            ]
+                          },
+                          "id": {
+                            "minLength": 1,
+                            "maxLength": 240,
+                            "type": "string"
+                          },
+                          "before": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "accountId": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                                  },
+                                  "id": {
+                                    "minLength": 1,
+                                    "maxLength": 240,
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "string",
+                                    "maxLength": 30,
+                                    "pattern": "^(0|[1-9]\\d*)$"
+                                  },
+                                  "revisionId": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                                  },
+                                  "data": {
+                                    "minLength": 2,
+                                    "maxLength": 1048576,
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "accountId",
+                                  "id",
+                                  "version",
+                                  "revisionId",
+                                  "data"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "after": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "accountId": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                                  },
+                                  "id": {
+                                    "minLength": 1,
+                                    "maxLength": 240,
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "string",
+                                    "maxLength": 30,
+                                    "pattern": "^(0|[1-9]\\d*)$"
+                                  },
+                                  "revisionId": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                                  },
+                                  "data": {
+                                    "minLength": 2,
+                                    "maxLength": 1048576,
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "accountId",
+                                  "id",
+                                  "version",
+                                  "revisionId",
+                                  "data"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "table",
+                          "id",
+                          "before",
+                          "after"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "payloadDigest": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "protocolVersion",
+                    "batchId",
+                    "deviceId",
+                    "expectedHeadVersion",
+                    "payloadSchemaVersion",
+                    "changes",
+                    "payloadDigest"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "serverSequence",
+                "batch"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nextSequence": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "headVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          }
+        },
+        "required": [
+          "envelopes",
+          "nextSequence",
+          "headVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Registration": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{3,32}$"
+          },
+          "password": {
+            "minLength": 16,
+            "maxLength": 128,
+            "type": "string"
+          },
+          "declarationVersion": {
+            "type": "string",
+            "const": "registration-v1"
+          }
+        },
+        "required": [
+          "username",
+          "password",
+          "declarationVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Login": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "username": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "password": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string"
+          },
+          "device": {
+            "minLength": 0,
+            "maxLength": 120,
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password",
+          "device"
+        ],
+        "additionalProperties": false
+      },
+      "Purpose": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "aiAllowed": {
+            "type": "boolean"
+          },
+          "healthAllowed": {
+            "type": "boolean"
+          },
+          "noticeVersion": {
+            "type": "string"
+          },
+          "expectedPurposeVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          }
+        },
+        "required": [
+          "aiAllowed",
+          "healthAllowed",
+          "noticeVersion",
+          "expectedPurposeVersion"
+        ],
+        "additionalProperties": false
+      },
+      "PurposeNotice": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "version": {
+            "minLength": 1,
+            "maxLength": 120,
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "maxLength": 32768,
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "text"
+        ],
+        "additionalProperties": false
+      },
+      "Deactivate": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "explicitConfirm": {
+            "type": "boolean",
+            "const": true
+          },
+          "expectedPurposeVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          }
+        },
+        "required": [
+          "explicitConfirm",
+          "expectedPurposeVersion"
+        ],
+        "additionalProperties": false
+      },
+      "AiRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "clientRequestId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "capability": {
+            "type": "string",
+            "enum": [
+              "PLAN_REVIEW",
+              "FOOD_ANALYSIS",
+              "REVIEW",
+              "ADJUSTMENT"
+            ]
+          },
+          "input": {
+            "minLength": 2,
+            "maxLength": 262144,
+            "type": "string"
+          },
+          "inputDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceMetadata": {
+            "minLength": 0,
+            "maxLength": 65536,
+            "type": "string"
+          },
+          "outputSchemaVersion": {
+            "type": "string",
+            "const": "candidate-v1"
+          },
+          "assetIds": {
+            "default": [],
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "clientRequestId",
+          "capability",
+          "input",
+          "inputDigest",
+          "sourceMetadata",
+          "outputSchemaVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Snapshot": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "baseSequence": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "payloadSchemaVersion": {
+            "type": "string",
+            "const": "documents-v1"
+          },
+          "chunks": {
+            "minItems": 1,
+            "maxItems": 64,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "string",
+                  "maxLength": 30,
+                  "pattern": "^(0|[1-9]\\d*)$"
+                },
+                "data": {
+                  "minLength": 2,
+                  "maxLength": 1048576,
+                  "type": "string"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "index",
+                "data",
+                "digest"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "attachments": {
+            "maxItems": 1000,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "complete": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "complete"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "snapshotId",
+          "baseSequence",
+          "payloadSchemaVersion",
+          "chunks",
+          "attachments"
+        ],
+        "additionalProperties": false
+      },
+      "Asset": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "mediaType": {
+            "type": "string",
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "application/octet-stream"
+            ]
+          },
+          "dataBase64": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 5592408
+          }
+        },
+        "required": [
+          "id",
+          "digest",
+          "mediaType",
+          "dataBase64"
+        ],
+        "additionalProperties": false
+      },
+      "SnapshotChunk": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rows": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "enum": [
+                "profile.condition",
+                "profile.observation",
+                "planning.goal",
+                "planning.week",
+                "planning.guard",
+                "planning.candidate",
+                "execution.fact",
+                "execution.food-draft",
+                "review.document",
+                "review.adjustment",
+                "system.token",
+                "system.revision"
+              ]
+            },
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "accountId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "id": {
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "pattern": "^(0|[1-9]\\d*)$"
+                  },
+                  "revisionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "data": {
+                    "minLength": 2,
+                    "maxLength": 1048576,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "accountId",
+                  "id",
+                  "version",
+                  "revisionId",
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "required": [
+          "accountId",
+          "rows"
+        ],
+        "additionalProperties": false
+      },
+      "AccountResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accountId",
+          "username"
+        ],
+        "additionalProperties": false
+      },
+      "SessionResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "credential": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accountId",
+          "credential",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "AccountSnapshot": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "username": {
+            "type": "string"
+          },
+          "aiAllowed": {
+            "type": "boolean"
+          },
+          "healthAllowed": {
+            "type": "boolean"
+          },
+          "purposeVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          }
+        },
+        "required": [
+          "accountId",
+          "username",
+          "aiAllowed",
+          "healthAllowed",
+          "purposeVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Capabilities": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "syncProtocolVersions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "const": "1"
+            }
+          },
+          "payloadSchemaVersions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "const": "documents-v1"
+            }
+          },
+          "headVersion": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "rootInitialized": {
+            "type": "boolean"
+          },
+          "snapshotId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "snapshotSequence": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 30,
+                "pattern": "^(0|[1-9]\\d*)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "maxChanges": {
+            "type": "string",
+            "const": "2000"
+          },
+          "maxBytes": {
+            "type": "string",
+            "const": "8388608"
+          }
+        },
+        "required": [
+          "syncProtocolVersions",
+          "payloadSchemaVersions",
+          "headVersion",
+          "rootInitialized",
+          "snapshotId",
+          "snapshotSequence",
+          "maxChanges",
+          "maxBytes"
+        ],
+        "additionalProperties": false
+      },
+      "AiSubmission": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED"
+            ]
+          },
+          "inputDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "taskId",
+          "status",
+          "inputDigest"
+        ],
+        "additionalProperties": false
+      },
+      "AiTask": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED"
+            ]
+          },
+          "inputDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^(0|[1-9]\\d*)$"
+          },
+          "errorCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "output": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/__schema0"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sourceMetadata": {
+            "type": "string"
+          },
+          "outputSchemaVersion": {
+            "type": "string",
+            "const": "candidate-v1"
+          },
+          "modelId": {
+            "type": "string"
+          },
+          "promptVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "taskId",
+          "status",
+          "inputDigest",
+          "version",
+          "errorCode",
+          "output",
+          "sourceMetadata",
+          "outputSchemaVersion",
+          "modelId",
+          "promptVersion"
+        ],
+        "additionalProperties": false,
+        "$defs": {
+          "__schema0": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/__schema0"
+                }
+              },
+              {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "$ref": "#/$defs/__schema0"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "PurposeResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "updated": {
+            "type": "boolean",
+            "const": true
+          },
+          "noticeVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "updated",
+          "noticeVersion"
+        ],
+        "additionalProperties": false
+      },
+      "DeactivationResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "DISABLED"
+          },
+          "dataRetained": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "status",
+          "dataRetained"
+        ],
+        "additionalProperties": false
+      },
+      "SnapshotResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "TEMPORARY",
+              "COMPLETE"
+            ]
+          }
+        },
+        "required": [
+          "snapshotId",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "RootRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "snapshotId"
+        ],
+        "additionalProperties": false
+      },
+      "CancelResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "CANCELLED"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "AssetResult": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "complete": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "digest",
+          "complete"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "code",
+          "requestId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

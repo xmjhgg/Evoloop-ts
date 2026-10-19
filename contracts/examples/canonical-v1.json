@@ -1,0 +1,31 @@
+[
+  {
+    "name": "precision-unicode",
+    "value": {
+      "z": null,
+      "big": "9223372036854775807",
+      "decimal": "900719925474099312345.125",
+      "day": "2026-10-17",
+      "instant": "2026-10-16T16:00:00.000Z",
+      "text": "中文😀",
+      "array": [
+        "b",
+        "a"
+      ],
+      "tombstone": true
+    },
+    "canonical": "{\"array\":[\"b\",\"a\"],\"big\":\"9223372036854775807\",\"day\":\"2026-10-17\",\"decimal\":\"900719925474099312345.125\",\"instant\":\"2026-10-16T16:00:00.000Z\",\"text\":\"中文😀\",\"tombstone\":true,\"z\":null}",
+    "digest": "187a707bff3fb08d8285fff0c4126921a41594e5781d05bd978795b9bb422769"
+  },
+  {
+    "name": "key-order",
+    "value": {
+      "😀": "emoji",
+      "": "private",
+      "a": "\n\t\r\"\\",
+      "empty": {}
+    },
+    "canonical": "{\"a\":\"\\n\\t\\r\\\"\\\\\",\"empty\":{},\"😀\":\"emoji\",\"\":\"private\"}",
+    "digest": "2d0c954100dfbddfd9541ec18ec980ff1c785e0b4414205abe8635b24f2c2211"
+  }
+]

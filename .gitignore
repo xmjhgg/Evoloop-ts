@@ -1,0 +1,13 @@
+node_modules/
+apps/cloud/target/
+.tools/
+.test-data/
+.env
+*.log
+*.zip
+*.tsbuildinfo
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/ios/
+apps/mobile/android/
+apps/mobile/build/

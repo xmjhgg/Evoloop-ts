@@ -1,0 +1,21 @@
+{
+  "name": "@evoloop/mobile", "private": true, "version": "0.1.0", "type": "module", "main": "index.ts",
+  "scripts": {
+    "start": "expo start --dev-client", "ios": "expo run:ios",
+    "typecheck": "tsc -p tsconfig.json", "export:ios": "expo export --platform ios",
+    "check:expo": "expo install --check"
+  },
+  "dependencies": {
+    "@evoloop/kernel": "workspace:*", "@evoloop/contracts": "workspace:*",
+    "@evoloop/client-business-core": "workspace:*", "@evoloop/local-runtime": "workspace:*",
+    "@evoloop/storage-sqlite": "workspace:*", "@evoloop/client-model": "workspace:*",
+    "@evoloop/design-tokens": "workspace:*",
+    "expo": "57.0.30", "react": "19.2.3", "react-native": "0.86.3",
+    "expo-sqlite": "57.0.4", "expo-secure-store": "57.0.4", "expo-crypto": "57.0.4",
+    "expo-network": "57.0.2", "expo-file-system": "57.0.7", "expo-sharing": "57.0.23",
+    "expo-document-picker": "57.0.3", "expo-dev-client": "57.0.20",
+    "expo-image-picker": "57.0.20", "expo-image-manipulator": "57.0.21",
+    "react-native-safe-area-context": "5.7.0", "zod": "4.1.12"
+  },
+  "devDependencies": { "@types/react": "19.2.4", "typescript": "6.0.3" }
+}

@@ -1,6 +1,6 @@
 # storage-indexeddb
 
-状态：目录骨架，暂无源码、package.json、exports、依赖或测试。
+状态：已实现 IndexedDB 账户存储、严格 readwrite 事务、摘要及代际比较，独立 DOM 类型配置；业务纯包不加载 DOM。当前用 fake-indexeddb 验证等价与重启，真实浏览器多标签/配额/驱逐仍待验收。
 
 职责：H5 事务、仓储、查询索引与升级。
 

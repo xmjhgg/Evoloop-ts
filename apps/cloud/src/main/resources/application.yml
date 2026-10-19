@@ -1,0 +1,30 @@
+server:
+  address: ${EVOLOOP_BIND_ADDRESS:127.0.0.1}
+  port: ${EVOLOOP_PORT:11093}
+  max-http-request-header-size: 16KB
+spring:
+  datasource:
+    url: ${EVOLOOP_CLOUD_DB_URL}
+    username: ${EVOLOOP_CLOUD_DB_USER}
+    password: ${EVOLOOP_CLOUD_DB_PASSWORD}
+    hikari:
+      data-source-properties:
+        connectionTimeZone: UTC
+        forceConnectionTimeZoneToSession: true
+  flyway:
+    clean-disabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+evoloop:
+  purpose-notice-version: ${PURPOSE_NOTICE_VERSION:}
+  purpose-notice-text: ${PURPOSE_NOTICE_TEXT:}
+  ai:
+    endpoint: ${AI_ENDPOINT:}
+    api-key: ${AI_API_KEY:}
+    model: ${AI_MODEL:}

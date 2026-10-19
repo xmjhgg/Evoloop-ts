@@ -1,0 +1,29 @@
+{
+  "schemas": [
+    "SyncBatch",
+    "SyncReceipt",
+    "PullEnvelope",
+    "Registration",
+    "Login",
+    "Purpose",
+    "PurposeNotice",
+    "Deactivate",
+    "AiRequest",
+    "Snapshot",
+    "Asset",
+    "SnapshotChunk",
+    "AccountResult",
+    "SessionResult",
+    "AccountSnapshot",
+    "Capabilities",
+    "AiSubmission",
+    "AiTask",
+    "PurposeResult",
+    "DeactivationResult",
+    "SnapshotResult",
+    "RootRequest",
+    "CancelResult",
+    "AssetResult",
+    "Error"
+  ]
+}

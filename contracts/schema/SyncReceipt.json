@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "batchId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+    },
+    "inputDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "STORED",
+        "CONFLICT",
+        "REJECTED"
+      ]
+    },
+    "serverSequence": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 30,
+          "pattern": "^(0|[1-9]\\d*)$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "currentHeadVersion": {
+      "type": "string",
+      "maxLength": 30,
+      "pattern": "^(0|[1-9]\\d*)$"
+    },
+    "code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "batchId",
+    "inputDigest",
+    "status",
+    "serverSequence",
+    "currentHeadVersion",
+    "code"
+  ],
+  "additionalProperties": false
+}

@@ -2,6 +2,8 @@
 
 版本 v1.0，2026-10-16，目标设计工作版。范围：[需求与差异](../requirements/README.md)；工程：[目录分工](../engineering/directory-structure.md)。
 
+2026-10-17 实现状态：核心与 Java 云服务已有源码和独立 MySQL/跨进程验证；下文仍包含未完成的客户端/领域扩展目标。实际边界按[实现映射](../requirements/implementation-map.md)和 [ADR-004](adr/ADR-004-document-storage-baseline.md)核对，不能将目标图当作全部验收通过。
+
 ## 1. 运行边界
 
 iOS 使用 React Native/Expo 开发构建与 SQLCipher，微信/H5 使用 Taro/React，分别适配持久文件日志和 IndexedDB。具体兼容版本待工程初始化锁定。TypeScript 业务处理端是各客户端内的共享库，不是另建远程业务服务器；Java 云服务不引用它。
@@ -48,4 +50,4 @@ profile 为基础支撑；planning 通过公开快照读取 profile；execution 
 
 保留目标—计划—事实—日周复盘闭环、原基准、不可变修订、未知值、来源失效、人工确认与本地备份。增加用户名/密码注册。找回密码、邮箱/短信、绑定、云端业务审核、营养服务和完整跨副本隐私编排不自动扩展；相关旧用例的范围降级须公开记录，不能因旧文档存在就宣称已交付。
 
-Windows 阶段可开展 TS 核心、Java 云端及 Taro 实现；iOS 原生构建、签名和 SQLCipher/锁屏/后台实际验收仍安排在后续 Mac 与 iPhone 环境。本轮不锁定依赖、不声明构建或设备测试通过。
+Windows 阶段已锁定并构建当前 TS 核心与 Java 云端；Taro/原生客户端、iOS 构建签名、SQLCipher/锁屏/后台仍待后续平台环境验收，不能由本机核心测试替代。

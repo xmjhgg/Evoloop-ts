@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "updated": {
+      "type": "boolean",
+      "const": true
+    },
+    "noticeVersion": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "updated",
+    "noticeVersion"
+  ],
+  "additionalProperties": false
+}

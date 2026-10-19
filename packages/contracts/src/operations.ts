@@ -1,0 +1,23 @@
+/** Unique HTTP operation registry; the generator publishes OpenAPI from these declarations. */
+export const operations = [
+  { path: '/identity/accounts', method: 'post', request: 'Registration', response: 'AccountResult', status: '201', description: 'Register one account without a session or business data' },
+  { path: '/identity/sessions/password', method: 'post', request: 'Login', response: 'SessionResult', status: '201', description: 'Sign in and issue a random bearer credential' },
+  { path: '/identity/session', method: 'get', response: 'AccountSnapshot', status: '200', description: 'Read the authenticated account and purpose snapshot' },
+  { path: '/identity/session', method: 'delete', status: '204', description: 'Revoke the current credential' },
+  { path: '/identity/purposes', method: 'put', request: 'Purpose', response: 'PurposeResult', status: '200', description: 'Set explicit purposes under the configured notice and invalidate old AI leases' },
+  { path: '/identity/purpose-notice', method: 'get', response: 'PurposeNotice', status: '200', description: 'Read configured purpose notice; unavailable until operator supplies actual version and text' },
+  { path: '/identity/account/deactivate', method: 'post', request: 'Deactivate', response: 'DeactivationResult', status: '200', description: 'Disable owned account access and sessions while retaining data; not a full erasure request' },
+  { path: '/sync/capabilities', method: 'get', response: 'Capabilities', status: '200', description: 'Read protocol versions, limits and account head' },
+  { path: '/sync/batches', method: 'post', request: 'SyncBatch', response: 'SyncReceipt', status: '200', description: 'Store opaque canonical changes or persist an immutable CONFLICT receipt' },
+  { path: '/sync/batches', method: 'get', response: 'PullEnvelope', status: '200', description: 'Pull up to 100 consecutive envelopes after afterSequence' },
+  { path: '/sync/snapshots', method: 'post', request: 'Snapshot', response: 'SnapshotResult', status: '200', description: 'Stage a complete chunk manifest; not yet recoverable' },
+  { path: '/sync/snapshots/{id}', method: 'get', response: 'Snapshot', status: '200', description: 'Read an owned COMPLETE snapshot' },
+  { path: '/sync/snapshots/{id}/complete', method: 'post', response: 'SnapshotResult', status: '200', description: 'Publish a snapshot only at the current account head' },
+  { path: '/sync/roots', method: 'post', request: 'RootRequest', response: 'SnapshotResult', status: '200', description: 'Initialize an unused account root from snapshotId' },
+  { path: '/sync/attachments', method: 'post', request: 'Asset', response: 'AssetResult', status: '200', description: 'Store a durable owned technical attachment' },
+  { path: '/sync/attachments/{id}', method: 'get', response: 'Asset', status: '200', description: 'Read an owned attachment by immutable id' },
+  { path: '/ai/tasks', method: 'post', request: 'AiRequest', response: 'AiSubmission', status: '202', description: 'Queue a candidate task; business acceptance stays on the client' },
+  { path: '/ai/tasks/{id}', method: 'get', response: 'AiTask', status: '200', description: 'Read technical task status and a candidate, including frozen model/prompt/source metadata' },
+  { path: '/ai/tasks/{id}', method: 'delete', response: 'CancelResult', status: '200', description: 'Cancel with expectedVersion; late results cannot resurrect a cancelled task' },
+  { path: '/ai/assets', method: 'post', request: 'Asset', response: 'AssetResult', status: '200', description: 'Upload an owned image for AI with a 24-hour TTL' },
+] as const;

@@ -1,0 +1,1 @@
+{"name":"@evoloop/storage-indexeddb","version":"0.1.0","private":true,"type":"module","exports":{".":"./src/public.ts"},"dependencies":{"@evoloop/kernel":"workspace:*","@evoloop/local-runtime":"workspace:*"}}

@@ -1,0 +1,1 @@
+{"name":"@evoloop/local-runtime","version":"0.1.0","private":true,"type":"module","exports":{".":"./src/public.ts","./ports":"./src/ports/public.ts"},"dependencies":{"@evoloop/client-business-core":"workspace:*","@evoloop/contracts":"workspace:*","@evoloop/data-schema":"workspace:*","@evoloop/kernel":"workspace:*","@noble/ciphers":"2.0.1","@noble/hashes":"2.0.1","zod":"4.1.12"}}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "clientRequestId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+    },
+    "capability": {
+      "type": "string",
+      "enum": [
+        "PLAN_REVIEW",
+        "FOOD_ANALYSIS",
+        "REVIEW",
+        "ADJUSTMENT"
+      ]
+    },
+    "input": {
+      "minLength": 2,
+      "maxLength": 262144,
+      "type": "string"
+    },
+    "inputDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sourceMetadata": {
+      "minLength": 0,
+      "maxLength": 65536,
+      "type": "string"
+    },
+    "outputSchemaVersion": {
+      "type": "string",
+      "const": "candidate-v1"
+    },
+    "assetIds": {
+      "default": [],
+      "maxItems": 5,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    }
+  },
+  "required": [
+    "clientRequestId",
+    "capability",
+    "input",
+    "inputDigest",
+    "sourceMetadata",
+    "outputSchemaVersion"
+  ],
+  "additionalProperties": false
+}

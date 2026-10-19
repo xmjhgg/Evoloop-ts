@@ -1,6 +1,6 @@
 # design-tokens
 
-状态：目录骨架，暂无源码、package.json、exports、依赖或测试。
+已实现平台无关的浅色/深色颜色与主题偏好类型；苹果端 ThemeProvider 持久化并跟随系统。此包不加载 React/Expo/DOM/Node 或业务核心。
 
 职责：平台无关视觉变量。
 

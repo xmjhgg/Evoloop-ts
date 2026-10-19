@@ -1,0 +1,1 @@
+{"name":"@evoloop/client-model","private":true,"version":"0.1.0","type":"module","exports":{".":"./src/public.ts"},"dependencies":{"@evoloop/kernel":"workspace:*","@evoloop/client-business-core":"workspace:*"}}

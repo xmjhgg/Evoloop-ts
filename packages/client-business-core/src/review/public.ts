@@ -1,0 +1,12 @@
+export type { ReviewDocument, ReviewComponent, ReviewScope, Adjustment } from './domain/model.ts';
+export { refreshReview } from './application/commands/refresh-review.ts';
+export { confirmScope, confirmedComponents, confirmationFingerprint } from './application/commands/confirm-scope.ts';
+export { acceptReviewCandidate } from './application/commands/accept-candidate.ts';
+export { invalidateStale } from './application/commands/invalidate-stale.ts';
+export { proposeAdjustment, verifyAdjustmentBasis } from './application/commands/propose-adjustment.ts';
+export { submitAdjustment } from './application/commands/submit-adjustment.ts';
+export { reviewDocument, reviewDocuments } from './application/queries/documents.ts';
+export { validateReviewImport } from './application/queries/validate-import.ts';
+export { editManual } from './application/commands/edit-manual.ts';
+export { reviewHistory } from './application/queries/history.ts';
+export { adjustments } from './application/queries/adjustments.ts';

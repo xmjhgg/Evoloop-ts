@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{3,32}$"
+    },
+    "password": {
+      "minLength": 16,
+      "maxLength": 128,
+      "type": "string"
+    },
+    "declarationVersion": {
+      "type": "string",
+      "const": "registration-v1"
+    }
+  },
+  "required": [
+    "username",
+    "password",
+    "declarationVersion"
+  ],
+  "additionalProperties": false
+}

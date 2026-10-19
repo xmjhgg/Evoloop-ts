@@ -1,6 +1,6 @@
 # 数据批次同步、冲突与恢复
 
-目标协议设计，尚未生成 Schema、OpenAPI 或 Java DTO；[契约分工](../engineering/contracts-and-versions.md)。
+2026-10-17 已生成当前 Schema/OpenAPI/Java DTO 并验证批次/快照/冲突；[契约分工](../engineering/contracts-and-versions.md)。下文保留总体目标，当前协议前置拒绝、单块客户端快照和旧格式转换的限制见 [ADR-004](adr/ADR-004-document-storage-baseline.md)与[实现记录](../verification/20261017-local-core-cloud.md)。
 
 ## 1. 信封与账户版本
 
