@@ -17,3 +17,5 @@
 本地执行配置解析和 Hermes 导出。CI 增加 macOS 26 / Xcode 26.4.1 原生模拟器编译任务；本轮未运行远端 CI，不将该配置视为编译成功。runner 工具来源：[GitHub runner images](https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md)。EAS image 单独固定为官方 SDK 57 image，尚未触发云构建：[Expo build infrastructure](https://docs.expo.dev/build-reference/infrastructure/)。
 
 不开展旧数据迁移。没有据此批准健身规则、宣称全部原字段/复盘指标或全部 140 AC 已交付；上述业务缺口仍由实际能力映射维护。
+
+2026-10-20 构建补充：GitHub 已分别通过原生模拟器编译与 iphoneos/arm64 真机编译，并产出供 Windows 本地个人签名的未签名 IPA，见 [IPA 验证记录](../../verification/20261020-unsigned-ipa.md)。构建不读取苹果账号或私钥，保留原始安全权限请求；生成 IPA 不等于完成个人签名、手机安装或原生交互验收。

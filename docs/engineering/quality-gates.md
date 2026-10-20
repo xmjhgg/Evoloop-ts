@@ -20,6 +20,7 @@
 | pnpm check:format:mobile | 格式化后的移动端、纯表现包和移动端测试；不得靠压行通过规模限制 |
 | pnpm verify:ios | 移动端严格类型、Expo 依赖匹配、原生配置插件解析和真实 iOS Hermes 包及摘要 |
 | iOS 原生构建 CI | macOS 26 / Xcode 26.4.1 / CocoaPods 1.16.2，生成工程并无签名编译模拟器包；2026-10-20 远端已通过并上传应用归档，见[运行记录](../verification/20261020-github-build.md) |
+| iPhone 未签名 IPA CI | 同一工具链使用 iphoneos SDK 编译 arm64 真机应用，打包 Payload/EvoLoop.app 并上传 IPA、原始权限和摘要；2026-10-20 已下载核对，见[IPA 记录](../verification/20261020-unsigned-ipa.md)。个人签名和真机安装另行验收 |
 | pnpm verify | 汇总规定本机层次；缺数据库、设备、供应商时报告未覆盖，不空通过 |
 
 云端数据库任务必须验证隔离库标识，缺库则明确失败或未执行，不能使用跳过来标记完整集成通过。客户端跨存储测试比较返回、规范数据、修订、基准、token、错误码与重启行为，不能仅比较函数返回或目录存在。

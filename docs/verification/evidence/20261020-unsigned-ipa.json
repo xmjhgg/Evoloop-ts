@@ -1,0 +1,93 @@
+{
+  "recordedAt": "2026-10-20T08:32:48.934477+00:00",
+  "sourceCommit": "c7178e3eefab1aa4d5e4f87e3bc6c925af52c837",
+  "runId": 39393152384,
+  "runUrl": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39393152384",
+  "artifact": {
+    "id": 12251540122,
+    "name": "ios-device-unsigned-ipa",
+    "size_in_bytes": 8907963,
+    "digest": "sha256:7cc74df612c498cbeeab3c3514dadf3359eb74e8a57ed7c83f1629521e806142",
+    "expires_at": "2026-10-27T08:31:55Z"
+  },
+  "ipa": {
+    "path": "apps/mobile/build/c7178e3/EvoLoop-unsigned.ipa",
+    "bytes": 9016647,
+    "sha256": "7ab53743f2e1d534237607fac3f5a44d8503bca030a99be488a2016f808dd2b7",
+    "bundleIdentifier": "com.evoloop.two",
+    "platforms": [
+      "iPhoneOS"
+    ],
+    "minimumIosVersion": "16.4",
+    "architecture": "arm64",
+    "machOBuildPlatforms": [
+      2
+    ],
+    "cryptIds": [
+      0
+    ],
+    "hasEmbeddedProvisioningProfile": false,
+    "hasAppSignatureDirectory": false,
+    "embeddedJsBytes": 2583155,
+    "embeddedJsSha256": "865695d4a9591710399adddbc20d7f9f395a9bb749f7390aef794779e9aee2a4"
+  },
+  "requestedEntitlements": {
+    "com.apple.developer.default-data-protection": "NSFileProtectionComplete"
+  },
+  "notRun": [
+    "Personal signing on Windows",
+    "Physical iPhone installation, launch and interaction",
+    "Native database, keychain, biometric and file behavior",
+    "Real AI provider and production deployment"
+  ],
+  "outcome": "UNSIGNED_IPHONE_IPA_GENERATED_DOWNLOADED_AND_VERIFIED",
+  "runs": [
+    {
+      "id": 39393152384,
+      "name": "iOS client",
+      "head_sha": "c7178e3eefab1aa4d5e4f87e3bc6c925af52c837",
+      "head_branch": "codex/ios-build-20261020",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-20T08:24:18Z",
+      "updated_at": "2026-10-20T08:32:08Z",
+      "html_url": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39393152384"
+    },
+    {
+      "id": 39393152305,
+      "name": "Local core and Java cloud",
+      "head_sha": "c7178e3eefab1aa4d5e4f87e3bc6c925af52c837",
+      "head_branch": "codex/ios-build-20261020",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-20T08:24:18Z",
+      "updated_at": "2026-10-20T08:26:25Z",
+      "html_url": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39393152305"
+    }
+  ],
+  "tests": {
+    "total": 87,
+    "passed": 87,
+    "failed": 0,
+    "skipped": 0,
+    "coreUnit": 43,
+    "mobileOrchestration": 14,
+    "localStorage": 2,
+    "java": 15,
+    "compatibility": 10,
+    "recovery": 2,
+    "cloudEndToEnd": 1
+  },
+  "logs": {
+    "cloud-job.log": "2d330f344d549ed76477a764ce01c55dedca7e11e5c3a9c65692d6675cc929e5",
+    "device-job.log": "3d0f5909a28839643122d4be62fd172cc8347617aaaf00bcc7358fc1588ef313"
+  },
+  "priorAttempt": {
+    "sourceCommit": "883c5912def2f8ffc6ca102d4415902c27383559",
+    "runId": 39391959141,
+    "deviceCompilation": "success",
+    "packaging": "failure",
+    "reason": "lipo input path placed after -verify_arch arguments",
+    "deviceJobLogSha256": "09d870a1677436f217e533d18d3cbeaccb159aeadc69d8e2b264e2781907306a"
+  }
+}
