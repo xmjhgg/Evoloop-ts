@@ -99,7 +99,7 @@ jobs:
           set -euo pipefail
           app_path=build/Build/Products/Release-iphoneos/EvoLoop.app
           test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleSupportedPlatforms:0' "$app_path/Info.plist")" = iPhoneOS
-          xcrun lipo -verify_arch arm64 "$app_path/EvoLoop"
+          xcrun lipo "$app_path/EvoLoop" -verify_arch arm64
           mkdir -p build/device-package/Payload build/device-artifacts
           ditto "$app_path" build/device-package/Payload/EvoLoop.app
           (cd build/device-package && zip -qry ../device-artifacts/EvoLoop-unsigned.ipa Payload)
