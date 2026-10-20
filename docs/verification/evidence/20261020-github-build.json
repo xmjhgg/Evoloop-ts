@@ -1,0 +1,102 @@
+{
+  "recordedAt": "2026-10-20T07:57:15.776580+00:00",
+  "outcome": "IOS_NATIVE_SIMULATOR_BUILD_AND_FULL_REGRESSION_PASSED",
+  "sourceCommit": "822b9de4e76c09b24770e01782f5bb1dd662ee30",
+  "branch": "codex/ios-build-20261020",
+  "runs": [
+    {
+      "id": 39388581610,
+      "name": "iOS client",
+      "head_sha": "822b9de4e76c09b24770e01782f5bb1dd662ee30",
+      "head_branch": "codex/ios-build-20261020",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-20T07:45:02Z",
+      "updated_at": "2026-10-20T07:54:37Z",
+      "html_url": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39388581610",
+      "run_attempt": 1
+    },
+    {
+      "id": 39388581284,
+      "name": "Local core and Java cloud",
+      "head_sha": "822b9de4e76c09b24770e01782f5bb1dd662ee30",
+      "head_branch": "codex/ios-build-20261020",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-20T07:45:02Z",
+      "updated_at": "2026-10-20T07:47:24Z",
+      "html_url": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39388581284",
+      "run_attempt": 1
+    }
+  ],
+  "tests": {
+    "total": 87,
+    "passed": 87,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "coreUnit": 43,
+    "mobileOrchestration": 14,
+    "localStorageIntegration": 2,
+    "java": 15,
+    "compatibility": 10,
+    "recovery": 2,
+    "javaHttpMysqlAndTwoSqliteClients": 1
+  },
+  "nativeBuild": {
+    "runner": "macos-26",
+    "xcode": "26.4.1",
+    "cocoapods": "1.16.2",
+    "configuration": "Release",
+    "sdk": "iphonesimulator",
+    "codeSigningAllowed": false,
+    "buildSucceededLogMarker": true,
+    "sqlCipherAndCodecFlagsInBuildLog": true,
+    "jobId": 118514752629
+  },
+  "logs": {
+    "nativeJobSha256": "e07ef26aa7b7f6c152f9c161b77302b83cc2e7e70860186263ac5c5459c1f9c4",
+    "cloudJobSha256": "9be9c6061e05affe59bd1d7db61d326a2dbbc437ccd4124d1aee65e7c5f18688"
+  },
+  "artifact": {
+    "id": 12248044974,
+    "name": "ios-simulator-app",
+    "size_in_bytes": 17627730,
+    "digest": "sha256:cde9b0b46720b54578e05cdab73a7512c24177849cf22988086edaf187a6bcb9",
+    "created_at": "2026-10-20T07:54:30Z",
+    "expires_at": "2026-10-27T07:54:29Z"
+  },
+  "packageVerification": {
+    "archiveBytes": 17627730,
+    "archiveSha256": "cde9b0b46720b54578e05cdab73a7512c24177849cf22988086edaf187a6bcb9",
+    "packagePath": "apps/mobile/build/822b9de/EvoLoop-ios-simulator.tar.gz",
+    "packageBytes": 17790460,
+    "packageSha256": "4ffc9d605b9ad13d44d7f5d8851146ec26f951b445e7135d578a25ca98551bde",
+    "application": {
+      "bundleIdentifier": "com.evoloop.two",
+      "platforms": [
+        "iPhoneSimulator"
+      ],
+      "executable": "EvoLoop",
+      "machOMagic": "cafebabe",
+      "appFiles": 112
+    }
+  },
+  "cloud": {
+    "java": "Temurin 21.0.8+9.0.LTS",
+    "mysql": "8.4.10",
+    "isolatedDatabase": "evoloop_two_test",
+    "jarProduced": true,
+    "jarBoundaryEntries": 308,
+    "lockedRuntimeDependencies": 66
+  },
+  "notRun": [
+    "iOS simulator launch and interactive acceptance",
+    "physical iPhone and native security/media/files behavior",
+    "real AI provider",
+    "performance",
+    "code signing, TestFlight and App Store",
+    "production deployment"
+  ],
+  "scope": "No legacy data migration and no changes to the original project, database or deployment."
+}

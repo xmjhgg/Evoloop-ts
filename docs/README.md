@@ -4,6 +4,8 @@
 
 最新共享核心增量与验证见 [20261020-shared-core](verification/20261020-shared-core.md)；原生/供应商/数据库验证范围仍分别记录。
 
+最新 GitHub 云端原生编译和 87 项完整回归结果见 [20261020-github-build](verification/20261020-github-build.md)，包含可下载的 iOS 模拟器应用；真机、签名和实际交互仍未验收。
+
 | 位置 | 内容 |
 | --- | --- |
 | [requirements](requirements/README.md) | 沿用的业务需求、注册增量与首期范围差异 |
