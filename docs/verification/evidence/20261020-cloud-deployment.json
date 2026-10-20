@@ -1,0 +1,254 @@
+{
+  "recordedAt": "2026-10-20T08:26:50.789928+00:00",
+  "outcome": "CLOUD_DEPLOYED_WITH_AI_AND_PURPOSE_NOTICE_UNCONFIGURED",
+  "host": "47.102.153.251",
+  "timezone": "Asia/Shanghai",
+  "branch": "codex/ios-build-20261020",
+  "release": {
+    "sourceCommit": "883c5912def2f8ffc6ca102d4415902c27383559",
+    "cloudCodeEquivalentTo": "822b9de4e76c09b24770e01782f5bb1dd662ee30",
+    "release": "20261020-162300-883c591",
+    "jarSha256": "2ca8a20c755d717bfd563114c4faa635464b733e96e8f241ccedde0501804c76",
+    "jarBytes": 29178808,
+    "javaTests": 15,
+    "e2eTests": 1,
+    "testsSkipped": 0,
+    "runtimeDependencies": 66,
+    "protocolArtifacts": 30
+  },
+  "runtime": {
+    "os": "Ubuntu 24.04.2 LTS",
+    "java": "OpenJDK 21.0.12.1",
+    "mysql": "8.0.46-0ubuntu0.24.04.4",
+    "springBoot": "4.0.8"
+  },
+  "validation": {
+    "javaMavenVerify": {
+      "maven": "3.9.11",
+      "mysql": "8.4.10",
+      "database": "evoloop_two_test",
+      "port": 13307,
+      "totals": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reports": [
+        {
+          "suite": "com.evoloop.cloud.AiTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "com.evoloop.cloud.AttachmentTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "com.evoloop.cloud.CanonicalTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "com.evoloop.cloud.IdentityTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "com.evoloop.cloud.SnapshotTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "com.evoloop.cloud.SyncTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "javaHttpMysqlTwoSqliteClients": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "cloudJarBoundaryEntries": 308,
+    "runtimeDependencyLockEntries": 66,
+    "generatedProtocolArtifacts": 30,
+    "publicChecks": 14,
+    "independentServiceRestart": "passed",
+    "localTestDatabaseStopped": true,
+    "fullWorkspaceRegressionRerun": false,
+    "wholeServerRebooted": false
+  },
+  "publicProbe": {
+    "recordedAt": "2026-10-20T08:23:19.306444+00:00",
+    "baseUrl": "https://www.xylcmyka.bond/EvoLoop-two",
+    "tlsCertificateVerified": true,
+    "probeAccount": {
+      "id": "e6b88972-f6d0-461a-9123-a5357da5c433",
+      "username": "deploy_2b50dd6ea40f6c17",
+      "status": "DISABLED",
+      "dataRetained": true
+    },
+    "checks": [
+      {
+        "name": "health",
+        "status": 200,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/actuator/health"
+      },
+      {
+        "name": "session_requires_auth",
+        "status": 401,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/session",
+        "code": "SESSION_REQUIRED"
+      },
+      {
+        "name": "register",
+        "status": 201,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/accounts"
+      },
+      {
+        "name": "login",
+        "status": 201,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/sessions/password"
+      },
+      {
+        "name": "session",
+        "status": 200,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/session"
+      },
+      {
+        "name": "sync_capabilities",
+        "status": 200,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/sync/capabilities"
+      },
+      {
+        "name": "sync_pull",
+        "status": 200,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/sync/batches?afterSequence=0"
+      },
+      {
+        "name": "unconfigured_notice_fails",
+        "status": 503,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/purpose-notice",
+        "code": "PURPOSE_NOTICE_UNAVAILABLE"
+      },
+      {
+        "name": "new_grant_requires_notice",
+        "status": 503,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/purposes",
+        "code": "PURPOSE_NOTICE_UNAVAILABLE"
+      },
+      {
+        "name": "revoke_session",
+        "status": 204,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/session"
+      },
+      {
+        "name": "revoked_session_rejected",
+        "status": 401,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/session",
+        "code": "SESSION_EXPIRED"
+      },
+      {
+        "name": "login_for_probe_retirement",
+        "status": 201,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/sessions/password"
+      },
+      {
+        "name": "retire_probe_account",
+        "status": 200,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/account/deactivate"
+      },
+      {
+        "name": "disabled_probe_rejected",
+        "status": 401,
+        "url": "https://www.xylcmyka.bond/EvoLoop-two/api/v2/identity/session",
+        "code": "SESSION_EXPIRED"
+      }
+    ]
+  },
+  "rootRedirects": {
+    "testedFromLocalMachine": true,
+    "paths": [
+      "http://www.xylcmyka.bond/EvoLoop-two",
+      "https://www.xylcmyka.bond/EvoLoop-two",
+      "https://www.xylcmyka.bond/EvoLoop-two/"
+    ],
+    "finalStatus": 200,
+    "finalUrl": "https://www.xylcmyka.bond/EvoLoop-two/actuator/health"
+  },
+  "serverAudit": {
+    "recordedAt": "2026-10-20T08:24:45.085484+00:00",
+    "oldFileSha256": {
+      "/etc/evoloop/backend.env": "9307f13af9a6a97ad2cf54a5f6e90834ff4f39d1c962899a0714e0990948cd8a",
+      "/etc/evoloop/nginx-locations.conf": "d54c8ece27e90f5d7ef6ce8e1ccf0f9f8f953dc2c6e0b3c19983d1b4db6567e5",
+      "/etc/systemd/system/evoloop.service": "a1629ae2e4a55704f49d737d669adb50718ea1a383bb2d3607a6f76cd660ed6f",
+      "/opt/evoloop/current/app.jar": "b68482f2a22bf7ae3516c523e760bbe8d8b39e3fa75b8832a48837ce4510c403"
+    },
+    "sharedNginxChange": "only one new include line",
+    "oldService": "MainPID=589767\nActiveState=active",
+    "newService": "MainPID=633287\nNRestarts=0\nMemoryCurrent=197152768\nMemorySwapCurrent=0\nActiveState=active\nSubState=running",
+    "newServiceEnabled": "enabled",
+    "newRelease": "/opt/evoloop-two/releases/20261020-162300-883c591",
+    "newJarSha256": "2ca8a20c755d717bfd563114c4faa635464b733e96e8f241ccedde0501804c76",
+    "configSha256": {
+      "/etc/systemd/system/evoloop-two.service": "afb4dea18078c064d9e759726de217add3776d200aad9029e1ed0664c173d0c4",
+      "/etc/evoloop-two/nginx-locations.conf": "1da1d92b04f5f389cd375d9ef9dd0e6caaed0df2e788d37788f844a11a8387dd"
+    },
+    "environmentPermissions": "0o600",
+    "aiConfigured": false,
+    "purposeNoticeConfigured": false,
+    "databaseResults": "001\t1\n002\t1\ndoyifu\t2\nevoloop\t141\nevoloop_two\t8\nDISABLED\t1\n0\n0",
+    "listeners": "State  Recv-Q Send-Q      Local Address:Port  Peer Address:PortProcess                                                                               \nLISTEN 0      511               0.0.0.0:443        0.0.0.0:*    users:((\"nginx\",pid=633271,fd=6),(\"nginx\",pid=633270,fd=6),(\"nginx\",pid=604952,fd=6))\nLISTEN 0      511               0.0.0.0:80         0.0.0.0:*    users:((\"nginx\",pid=633271,fd=7),(\"nginx\",pid=633270,fd=7),(\"nginx\",pid=604952,fd=7))\nLISTEN 0      4096              0.0.0.0:22         0.0.0.0:*    users:((\"sshd\",pid=605764,fd=3),(\"systemd\",pid=1,fd=217))                            \nLISTEN 0      151             127.0.0.1:3306       0.0.0.0:*    users:((\"mysqld\",pid=544284,fd=23))                                                  \nLISTEN 0      4096           127.0.0.54:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=600480,fd=17))                                         \nLISTEN 0      4096        127.0.0.53%lo:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=600480,fd=15))                                         \nLISTEN 0      70              127.0.0.1:33060      0.0.0.0:*    users:((\"mysqld\",pid=544284,fd=21))                                                  \nLISTEN 0      511                  [::]:443           [::]:*    users:((\"nginx\",pid=633271,fd=5),(\"nginx\",pid=633270,fd=5),(\"nginx\",pid=604952,fd=5))\nLISTEN 0      511                  [::]:80            [::]:*    users:((\"nginx\",pid=633271,fd=8),(\"nginx\",pid=633270,fd=8),(\"nginx\",pid=604952,fd=8))\nLISTEN 0      100    [::ffff:127.0.0.1]:11093            *:*    users:((\"java\",pid=633287,fd=13))                                                    \nLISTEN 0      100    [::ffff:127.0.0.1]:11092            *:*    users:((\"java\",pid=589767,fd=25))                                                    \nLISTEN 0      4096                 [::]:22            [::]:*    users:((\"sshd\",pid=605764,fd=4),(\"systemd\",pid=1,fd=218))",
+    "swap": "NAME                  TYPE       SIZE USED PRIO\n/swapfile-evoloop-two file 1073737728    0   -2",
+    "memory": "total        used        free      shared  buff/cache   available\nMem:            1613        1520          97           3         144          92\nSwap:           1023           0        1023",
+    "publicHealth": {
+      "status": 200,
+      "bodySha256": "b9613659d8f4412c778e34293d5b865fb188c5814379ee3bfb8c819432e70020",
+      "finalUrl": "https://www.xylcmyka.bond/EvoLoop-two/actuator/health"
+    },
+    "oldPublicEntry": {
+      "status": 401,
+      "bodySha256": "b040e5d5bbdb37957e773627aa09416c9326eea6d0a0f3b5c504b629b1f22a7a",
+      "finalUrl": "https://www.xylcmyka.bond/evoloop/"
+    },
+    "catalog": {
+      "status": 200,
+      "bodySha256": "7523c331a1f0f1aa505a9fd910d69a80685fedfc9c84daffa0970db7c1ea3f9d",
+      "finalUrl": "https://www.xylcmyka.bond/catalog.json"
+    },
+    "nginxTest": "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
+  },
+  "originalSitePreservation": {
+    "oldServiceFilesUnchanged": true,
+    "oldServicePidUnchanged": true,
+    "catalogContentUnchanged": true,
+    "oldDatabaseWritesPerformed": false,
+    "oldDatabaseMigrationPerformed": false
+  },
+  "configurationBackup": "/etc/evoloop-two/deployment-backups/20261020-162018",
+  "unverified": [
+    "real AI provider",
+    "formal purpose notice and client grants",
+    "load and performance",
+    "backup restoration drill",
+    "whole server reboot",
+    "iOS device and signing",
+    "WeChat miniapp"
+  ]
+}

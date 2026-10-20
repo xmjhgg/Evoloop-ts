@@ -6,6 +6,8 @@
 
 最新 GitHub 云端原生编译和 87 项完整回归结果见 [20261020-github-build](verification/20261020-github-build.md)，包含可下载的 iOS 模拟器应用；真机、签名和实际交互仍未验收。
 
+Java 云服务已部署到独立 `/EvoLoop-two` 入口，见[部署验收](verification/20261020-cloud-deployment.md)与[维护说明](engineering/cloud-deployment.md)。AI 供应商及正式用途告知尚未配置。
+
 | 位置 | 内容 |
 | --- | --- |
 | [requirements](requirements/README.md) | 沿用的业务需求、注册增量与首期范围差异 |

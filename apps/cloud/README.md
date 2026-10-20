@@ -21,6 +21,8 @@ pnpm start:cloud
 
 默认 `127.0.0.1:11093`，健康接口 `/actuator/health`，业务前缀 `/api/v2`。直接 Maven 构建使用已发布的 `contracts/java` 和 `contracts/schema`，复制到 target 后编译，不需要 Node 运行时。
 
-完整验证必须将 URL 指向独立的 `evoloop_two_test`，并设置对应用户/密码，再执行 `pnpm verify`。Java 测试在 Flyway 前核验实际数据库名，缺数据库直接失败，零跳过。生产环境的 TLS、凭据、共享限流、对象存储/配额及供应商参数须独立运维配置；本次没有部署。
+完整验证必须将 URL 指向独立的 `evoloop_two_test`，并设置对应用户/密码，再执行 `pnpm verify`。Java 测试在 Flyway 前核验实际数据库名，缺数据库直接失败，零跳过。生产环境的 TLS、凭据、共享限流、对象存储/配额及供应商参数须独立运维配置。
+
+2026-10-20 已部署独立新库与服务，入口为 `https://www.xylcmyka.bond/EvoLoop-two`，公网 API 前缀为 `/EvoLoop-two/api/v2`。AI 供应商和正式用途告知尚未配置，相关能力明确不可用。配置、运行与撤下步骤见[部署说明](../../docs/engineering/cloud-deployment.md)，实际测试边界见[部署验收](../../docs/verification/20261020-cloud-deployment.md)。
 
 [协议](../../contracts/openapi/evoloop-v2.json) · [验证记录](../../docs/verification/20261017-local-core-cloud.md) · [Java 决策](../../docs/architecture/adr/ADR-001-java-cloud.md)

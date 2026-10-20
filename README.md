@@ -30,4 +30,4 @@ pnpm verify:ios
 pnpm verify
 ```
 
-Java 运行与测试库配置见 [cloud](apps/cloud/README.md)，苹果端运行见 [mobile](apps/mobile/README.md)。新服务默认端口 11093、前缀 `/api/v2`；新苹果端 bundleId 为 `com.evoloop.two`。本轮没有部署或切换业务库，原 `E:\pr\Evoloop` 保持只读。真机、真实供应商和完整产品验收分开记录；不开展旧库/队列转换。
+Java 运行与测试库配置见 [cloud](apps/cloud/README.md)，苹果端运行见 [mobile](apps/mobile/README.md)。新服务默认端口 11093、前缀 `/api/v2`；新苹果端 bundleId 为 `com.evoloop.two`。2026-10-20 已部署独立新库和 `https://www.xylcmyka.bond/EvoLoop-two` 入口，见[部署验收](docs/verification/20261020-cloud-deployment.md)；未切换旧业务库，原 `E:\pr\Evoloop` 保持只读。AI 供应商及正式用途告知尚未配置；真机、真实供应商和完整产品验收分开记录，不开展旧库/队列转换。

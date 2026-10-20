@@ -1,0 +1,37 @@
+[Unit]
+Description=EvoLoop-two Java cloud (identity, AI and sync)
+After=network.target mysql.service
+Requires=mysql.service
+StartLimitIntervalSec=120
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=evoloop-two
+Group=evoloop-two
+WorkingDirectory=/opt/evoloop-two
+EnvironmentFile=/etc/evoloop-two/backend.env
+ExecStart=/usr/bin/java -Xms32m -Xmx160m -XX:+UseSerialGC -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=32m -XX:MaxDirectMemorySize=16m -Xss512k -Duser.timezone=UTC -jar /opt/evoloop-two/current/app.jar
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+SuccessExitStatus=143
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryHigh=320M
+MemoryMax=400M
+MemorySwapMax=512M
+TasksMax=100
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
