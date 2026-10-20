@@ -66,3 +66,54 @@ jobs:
         with:
           name: ios-native-build-logs
           path: apps/mobile/build/Logs/
+  native-device-build:
+    needs: client
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.4.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - run: pnpm install --frozen-lockfile
+      - run: xcodebuild -version
+      - run: pnpm exec expo prebuild --platform ios --no-install
+        working-directory: apps/mobile
+      - run: gem install cocoapods -v 1.16.2 --no-document
+      - run: pod install
+        working-directory: apps/mobile/ios
+      - name: Build unsigned iPhone application
+        run: >-
+          xcodebuild -workspace ios/EvoLoop.xcworkspace -scheme EvoLoop
+          -configuration Release -sdk iphoneos -destination 'generic/platform=iOS'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+          CODE_SIGN_IDENTITY="" build
+        working-directory: apps/mobile
+      - name: Package unsigned IPA
+        run: |
+          set -euo pipefail
+          app_path=build/Build/Products/Release-iphoneos/EvoLoop.app
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleSupportedPlatforms:0' "$app_path/Info.plist")" = iPhoneOS
+          xcrun lipo -verify_arch arm64 "$app_path/EvoLoop"
+          mkdir -p build/device-package/Payload build/device-artifacts
+          ditto "$app_path" build/device-package/Payload/EvoLoop.app
+          (cd build/device-package && zip -qry ../device-artifacts/EvoLoop-unsigned.ipa Payload)
+          cp ios/EvoLoop/EvoLoop.entitlements build/device-artifacts/EvoLoop.requested.entitlements
+          (cd build/device-artifacts && shasum -a 256 EvoLoop-unsigned.ipa > SHA256SUMS)
+        working-directory: apps/mobile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-device-unsigned-ipa
+          path: apps/mobile/build/device-artifacts/
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-device-build-logs
+          path: apps/mobile/build/Logs/
