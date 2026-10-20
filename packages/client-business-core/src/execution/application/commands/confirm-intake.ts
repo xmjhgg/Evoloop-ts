@@ -7,7 +7,7 @@ import { saveFact } from './save-fact.ts';
 
 export function confirmIntake(tx: Transaction, context: ExecutionContext, input: {
   draftId: string; expectedVersion: string; expectedFactVersion: string;
-  explicitConfirm: boolean; unknownAccepted: boolean; planItemIds: readonly string[];
+  explicitConfirm: boolean; unknownAccepted: boolean; planItemIds: readonly string[]; baselineMode?: 'AUTO' | 'SELECTED' | 'UNPLANNED' | undefined;
 }): Fact {
   requireThat(input.explicitConfirm, 'EXPLICIT_CONFIRMATION_REQUIRED');
   const repository = tx.store('execution'), draft = required<FoodDraft>(repository, 'food-draft', input.draftId);
@@ -19,7 +19,7 @@ export function confirmIntake(tx: Transaction, context: ExecutionContext, input:
   const previous = draft.factId ? required<Fact>(repository, 'fact', draft.factId) : null;
   if (previous && draft.confirmedRevisionId === draft.revisionId) return previous;
   const fact = saveFact(tx, context, { id: previous?.id ?? null, expectedVersion: input.expectedFactVersion, businessDate: draft.businessDate,
-    data: { kind: 'MEAL', mealCode: draft.mealCode, lines: draft.lines, draftId: draft.id, unknownAccepted: input.unknownAccepted }, planItemIds: input.planItemIds, remove: false });
+    data: { kind: 'MEAL', mealCode: draft.mealCode, lines: draft.lines, draftId: draft.id, unknownAccepted: input.unknownAccepted }, planItemIds: input.planItemIds, baselineMode: input.baselineMode, remove: false });
   const entity: FoodDraft = { ...draft, ...revision(context, 'food-draft', draft), factId: fact.id, confirmedRevisionId: context.id('food-draft:revision') };
   repository.save('food-draft', entity);
   tx.bump('execution:FOOD_DRAFT:' + entity.id);

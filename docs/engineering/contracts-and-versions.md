@@ -4,6 +4,8 @@
 
 当前版本：clientCoreVersion=0.1.0，localSchema/stateFormatVersion=1，localCommandVersion=1，syncProtocolVersion=1，payloadSchemaVersion=documents-v1，backupFormatVersion=1，身份 API=/api/v2，AI 输出=candidate-v1。没有已发布的 N-1 支持；旧 rows-v1/方法名队列/备份保留并明确拒绝直接导入，不能宣称已迁移。
 
+2026-10-20 未发布的共享核心增量：统计冻结输入 metricVersion=review-metrics-v2，标签/份量换算版本 nutrition-units-v1。新增本地命令 execution.food-draft.save-label、review.adjustment.dismiss，实际保存/摄入命令可选 baselineMode；业务文档可选扩展为营养原值/份量、餐次分配，调整状态增加 STALE。既有输入仍解析，旧统计保留但不能授权新版确认；重放语义变化继续拒绝并保留分支。复制外层、Java DTO、状态与备份格式没有改变；旧客户端能否读取新业务字段并未验收，不声称 N/N-1 兼容。必要时明确要求客户端升级，不能清队列、覆盖同步根或静默转换。
+
 苹果端本轮版本：Expo 57.0.30、React Native 0.86.3、React 19.2.3、移动端 TS 6.0.3（纯包检查仍为 5.9.3），准确依赖见锁文件。mobileBackupFormat=1 外层封装共享核心备份、服务原点、照片与 AI 书签，仅用于当前客户端。用途协议增加 PurposeNotice，以及 Purpose.noticeVersion / expectedPurposeVersion；尚无外部已发布客户端，旧请求缺字段明确失败。用户已取消当前旧数据迁移任务。
 
 Java Maven 仅复制已发布 `contracts/java` 到 target/generated-sources/contracts 编译，JSON Schema 复制到 protocol 资源并执行传输校验。Java 构建不加载 TS；协议生成工具不加载核心或 testing。

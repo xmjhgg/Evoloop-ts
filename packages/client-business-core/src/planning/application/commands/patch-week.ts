@@ -3,6 +3,7 @@ import type { Transaction, ExecutionContext } from '../../../application/ports/p
 import { expected, required, revision } from '../../../application/ports/entity.ts';
 import type { Goal, PlanItem, WeekPlan } from '../../domain/model.ts';
 import { validateItem } from '../../domain/prescription-policy.ts';
+import { validateDraftSlots } from '../../domain/draft-slots.ts';
 
 export function patchWeek(tx: Transaction, context: ExecutionContext, input: {
   goalId: string; weekStart: string; expectedVersion: string;
@@ -28,6 +29,7 @@ export function patchWeek(tx: Transaction, context: ExecutionContext, input: {
     validateItem(item);
     items.set(item.id, old && canonical({ ...old, revisionId: '' }) === canonical({ ...item, revisionId: '' }) ? old : item);
   });
+  validateDraftSlots([...items.values()]);
   const entity: WeekPlan = { ...revision(context, 'week', previous), id, goalId: goal.id, weekStart: input.weekStart,
     draft: [...items.values()], published: previous?.published ?? [], review: null, publications: previous?.publications ?? [] };
   if (previous && canonical(entity.draft) === canonical(previous.draft)) return previous;

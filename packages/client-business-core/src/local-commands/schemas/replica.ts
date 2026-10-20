@@ -30,7 +30,7 @@ const schemas: Record<string, z.ZodType> = {
     manual: z.array(z.object({ id, slot: id, text: z.string(), removed: z.boolean() }).strict()),
     confirmations: z.array(z.object({ id, componentIds: z.array(id), fingerprint: id, at: id, stale: z.boolean() }).strict()) }).strict(),
   'review.adjustment': entity.extend({ documentId: id, componentIds: z.array(id), sources, weekId: id,
-    changes: z.array(z.object({ itemId: id, oldValue: planItem, proposed: planItem, reason: id }).strict()), status: z.enum(['READY', 'SUBMITTED', 'DISMISSED']) }).strict(),
+    changes: z.array(z.object({ itemId: id, oldValue: planItem, proposed: planItem, reason: id }).strict()), status: z.enum(['READY', 'SUBMITTED', 'DISMISSED', 'STALE']) }).strict(),
   'system.token': entity.strict(),
 };
 export function validateDocument(table: string, value: unknown): void {

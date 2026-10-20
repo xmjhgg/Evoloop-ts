@@ -26,6 +26,20 @@ export function multiply(a: string, b: string, scale = 6): string {
   const divisor = 10n ** BigInt(from - scale), absolute = amount < 0n ? -amount : amount;
   return format((absolute / divisor + (absolute % divisor * 2n >= divisor ? 1n : 0n)) * (amount < 0n ? -1n : 1n), scale);
 }
+/** Decimal division, rounded half away from zero at an explicit decimal scale. */
+export function divide(a: string, b: string, scale = 6): string {
+  requireThat(Number.isInteger(scale) && scale >= 0 && scale <= 18, 'INVALID_SCALE');
+  const x = parts(a), y = parts(b);
+  requireThat(y.amount !== 0n, 'DIVISION_BY_ZERO');
+  const numerator = x.amount * 10n ** BigInt(y.scale + scale), denominator = y.amount * 10n ** BigInt(x.scale);
+  const absolute = numerator < 0n ? -numerator : numerator, divisor = denominator < 0n ? -denominator : denominator;
+  const rounded = absolute / divisor + (absolute % divisor * 2n >= divisor ? 1n : 0n);
+  return format(rounded * ((numerator < 0n) !== (denominator < 0n) ? -1n : 1n), scale);
+}
+export function subtract(a: string, b: string): string {
+  const value = decimal(b);
+  return add(a, value === '0' ? '0' : value.startsWith('-') ? value.slice(1) : '-' + value);
+}
 export function compare(a: string, b: string): number {
   const x = parts(a), y = parts(b), scale = Math.max(x.scale, y.scale);
   const delta = x.amount * 10n ** BigInt(scale - x.scale) - y.amount * 10n ** BigInt(scale - y.scale);

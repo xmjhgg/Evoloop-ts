@@ -3,6 +3,8 @@ import type { ExecutionContext, Transaction } from '../../../application/ports/p
 import { expected, required, revision } from '../../../application/ports/entity.ts';
 import type { ReviewDocument } from '../../domain/model.ts';
 import { advanceReviewTokens } from '../../domain/advance-tokens.ts';
+import { requireReviewAccess } from '../../domain/scope-access.ts';
+import { componentFresh } from '../../domain/freshness.ts';
 
 export function acceptReviewCandidate(tx: Transaction, context: ExecutionContext, input: {
   documentId: string; expectedVersion: string; componentId: string; inputDigest: string; text: string;
@@ -12,7 +14,8 @@ export function acceptReviewCandidate(tx: Transaction, context: ExecutionContext
   expected(document, input.expectedVersion);
   const component = document.components.find(item => item.id === input.componentId);
   requireThat(component && component.state !== 'MANUAL_FINAL_JUDGMENT', 'COMPONENT_NOT_ACCEPTABLE');
-  requireThat(component.inputDigest === input.inputDigest && !component.stale && tx.fresh(component.sources), 'SOURCE_STALE');
+  requireReviewAccess(tx, context, component.slot);
+  requireThat(component.inputDigest === input.inputDigest && componentFresh(tx, component), 'SOURCE_STALE');
   const entity: ReviewDocument = { ...document, ...revision(context, 'review', document), components: document.components.map(item => item.id === component.id
     ? { ...item, id: context.id('component'), text: input.text, state: 'AWAITING_CONFIRMATION' } : item) };
   repository.save('document', entity);

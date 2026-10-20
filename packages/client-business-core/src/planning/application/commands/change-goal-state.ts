@@ -11,7 +11,7 @@ export function changeGoalState(tx: Transaction, context: ExecutionContext, port
   expected(goal, input.expectedVersion);
   requireThat(goal.status !== 'ARCHIVED', 'GOAL_ARCHIVED');
   requireThat(input.action !== 'REQUEST_RESUME' || goal.status === 'PAUSED', 'INVALID_GOAL_TRANSITION');
-  requireThat(input.action !== 'PAUSE' || goal.status === 'ACTIVE', 'INVALID_GOAL_TRANSITION');
+  requireThat(input.action !== 'PAUSE' || goal.status === 'ACTIVE' || goal.status === 'PENDING_REPLAN', 'INVALID_GOAL_TRANSITION');
   const status = input.action === 'PAUSE' ? 'PAUSED' : input.action === 'ARCHIVE' ? 'ARCHIVED' : 'PENDING_REPLAN';
   const entity: Goal = { ...goal, ...revision(context, 'goal', goal), status };
   repository.save('goal', entity);

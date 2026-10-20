@@ -1,8 +1,12 @@
 export type { Fact, FoodDraft, FoodLine, Nutrition, Training, Learning, Sleep, Meal } from './domain/model.ts';
 export { saveFact } from './application/commands/save-fact.ts';
 export { saveFoodDraft, acceptFoodCandidate, foodInputDigest } from './application/commands/save-food-draft.ts';
+export { saveLabelDraft } from './application/commands/save-label-draft.ts';
+export { foodLineFromLabel, convertLabelValue } from './domain/label-conversion.ts';
+export type { LabelLine, LabelValue } from './domain/label-conversion.ts';
 export { confirmIntake } from './application/commands/confirm-intake.ts';
-export { factsOn, hasActual, intakeSummary, learningQuantities } from './application/queries/facts.ts';
+export { factsOn, hasActual, hasMealActual, intakeSummary, summarizeIntake, learningQuantities } from './application/queries/facts.ts';
+export { nutritionProgress } from './application/queries/nutrition-progress.ts';
 export { validateExecutionImport } from './application/queries/validate-import.ts';
 export { removeFact } from './application/commands/remove-fact.ts';
 export { executionHistory } from './application/queries/history.ts';

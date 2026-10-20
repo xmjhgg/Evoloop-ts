@@ -1,14 +1,27 @@
-import { requireThat } from '@evoloop/kernel';
+import { canonical, requireThat } from '@evoloop/kernel';
 import type { ExecutionContext, Transaction } from '../../../application/ports/public.ts';
 import { revision } from '../../../application/ports/entity.ts';
 import type { BaselineRef, Protection, WeekPlan } from '../../domain/model.ts';
 
-export function protectBaseline(tx: Transaction, context: ExecutionContext, day: string, kind: string, itemIds: readonly string[]): readonly BaselineRef[] {
+function selectRefs(refs: readonly BaselineRef[], kind: string, itemIds: readonly string[], mode: 'AUTO' | 'SELECTED' | 'UNPLANNED') {
+  requireThat(itemIds.every(id => refs.some(ref => ref.item.id === id)), 'BASELINE_CONFLICT');
+  if (mode === 'UNPLANNED') {
+    requireThat(itemIds.length === 0, 'BASELINE_CONFLICT');
+    return [];
+  }
+  const selected = itemIds.length || mode === 'SELECTED' ? refs.filter(ref => itemIds.includes(ref.item.id)) : kind === 'MEAL' || kind === 'SLEEP' ? refs : [];
+  if (kind === 'MEAL' || kind === 'SLEEP') {
+    const distinct = new Set(selected.map(ref => canonical(kind === 'MEAL' ? ref.item.prescription.nutrition
+      : { startAt: ref.item.prescription.startAt, minutes: ref.item.prescription.minutes })));
+    requireThat(distinct.size <= 1, 'BASELINE_SELECTION_REQUIRED');
+  }
+  return selected;
+}
+export function protectBaseline(tx: Transaction, context: ExecutionContext, day: string, kind: string, itemIds: readonly string[], mode: 'AUTO' | 'SELECTED' | 'UNPLANNED' = 'AUTO'): readonly BaselineRef[] {
   const repository = tx.store('planning'), guardId = day + '|' + kind;
   const previous = repository.get<Protection>('guard', guardId);
   if (previous) {
-    requireThat(itemIds.every(id => previous.refs.some(ref => ref.item.id === id)), 'BASELINE_CONFLICT');
-    return previous.refs.filter(ref => kind === 'MEAL' || itemIds.includes(ref.item.id));
+    return selectRefs(previous.refs, kind, itemIds, mode);
   }
   const refs: BaselineRef[] = [];
   for (const week of repository.all<WeekPlan>('week')) {
@@ -25,5 +38,5 @@ export function protectBaseline(tx: Transaction, context: ExecutionContext, day:
   const dimension = key + ':' + (kind === 'MEAL' ? 'NUTRITION_TOTAL' : kind);
   tx.bump(dimension);
   tx.invalidate([key, dimension]);
-  return refs.filter(ref => kind === 'MEAL' || itemIds.includes(ref.item.id));
+  return selectRefs(refs, kind, itemIds, mode);
 }

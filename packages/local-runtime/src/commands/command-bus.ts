@@ -2,8 +2,8 @@ import { businessDate, canonical, copy, digest, nextVersion, requireThat } from 
 import type { Json } from '@evoloop/kernel';
 import { commandSchema, commandRegistry } from '@evoloop/client-business-core/commands';
 import type { ExecutionContext, LocalCommand } from '@evoloop/client-business-core/ports';
-import { hasActual } from '@evoloop/client-business-core/execution';
-import { invalidateStale, verifyAdjustmentBasis } from '@evoloop/client-business-core/review';
+import { hasActual, hasMealActual } from '@evoloop/client-business-core/execution';
+import { deriveReviews, invalidateStale, verifyAdjustmentBasis } from '@evoloop/client-business-core/review';
 import type { PlanningCollaborators } from '@evoloop/client-business-core/planning';
 import type { AtomicStore, State } from '../ports/public.ts';
 import { LocalTransaction } from './transaction.ts';
@@ -95,11 +95,12 @@ export class CommandBus {
         const row = state.rows[collection as keyof State['rows']]?.find(value => value.id === id);
         requireThat((row?.version ?? '0') === version, 'VERSION_CONFLICT');
       }
-      const ports: PlanningCollaborators = { hasActual, verifyAdjustmentBasis, fitnessPolicy: this.settings.fitnessPolicy };
+      const ports: PlanningCollaborators = { hasActual, hasMealActual, verifyAdjustmentBasis, fitnessPolicy: this.settings.fitnessPolicy };
       const handler = commandRegistry(ports)[input.commandType];
       requireThat(handler, 'LOCAL_COMMAND_UNSUPPORTED');
       const result = handler(tx, context, input);
       invalidateStale(tx, context);
+      deriveReviews(tx, context, [...tx.changedTokens], input.commandType);
       validateRows(tx.rows, state.accountId);
       validateBusiness(tx, this.settings.now());
       const changes = diffRows(state.rows, tx.rows);

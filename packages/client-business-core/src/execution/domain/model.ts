@@ -29,6 +29,13 @@ export interface Nutrition {
   readonly upper: string | null;
   readonly unit: 'kcal' | 'g';
   readonly source: string;
+  readonly original?: {
+    readonly unit: 'kcal' | 'kJ' | 'g';
+    readonly value: string | null;
+    readonly lower: string | null;
+    readonly upper: string | null;
+    readonly conversionVersion: 'nutrition-units-v1';
+  } | undefined;
 }
 export interface FoodLine {
   readonly id: string;
@@ -39,6 +46,12 @@ export interface FoodLine {
   readonly protein: Nutrition;
   readonly carbohydrate: Nutrition;
   readonly fat: Nutrition;
+  readonly portion?: {
+    readonly referenceAmount: string;
+    readonly consumedAmount: string | null;
+    readonly unit: 'g' | 'PORTION';
+    readonly conversionVersion: 'nutrition-units-v1';
+  } | undefined;
 }
 export interface Meal {
   readonly kind: 'MEAL';

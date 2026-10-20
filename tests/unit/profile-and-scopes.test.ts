@@ -31,6 +31,8 @@ test('learning-only changes preserve a health component confirmation in the shar
   const ids = [health.components[0]!.id];
   const confirmed = await execute<ReviewDocument>('review.scope.confirm', { documentId: health.id, expectedVersion: health.version, componentIds: ids, fingerprint: confirmationFingerprint(health, ids), explicitConfirm: true });
   await execute('execution.fact.save', { ...training, data: { kind: 'LEARNING', status: 'COMPLETED', durationMinutes: '20', fragments: [{ unit: 'MINUTE', quantity: '20' }], outcome: 'Notes' } });
-  const withLearning = await execute<ReviewDocument>('review.refresh', { scope: { period: 'DAILY', date: '2026-10-17', goalId: null, slot: 'LEARNING' }, expectedVersion: confirmed.version, manualText: 'Learned', manualFinal: true });
+  const derived = bus.transaction().store('review').get<ReviewDocument>('document', confirmed.id)!;
+  assert.deepEqual(confirmedComponents(bus.transaction(), derived), ids);
+  const withLearning = await execute<ReviewDocument>('review.refresh', { scope: { period: 'DAILY', date: '2026-10-17', goalId: null, slot: 'LEARNING' }, expectedVersion: derived.version, manualText: 'Learned', manualFinal: true });
   assert.deepEqual(confirmedComponents(bus.transaction(), withLearning), ids);
 });

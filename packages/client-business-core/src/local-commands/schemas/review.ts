@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { refreshReview, editManual, acceptReviewCandidate, confirmScope, proposeAdjustment, submitAdjustment } from '../../review/public.ts';
+import { refreshReview, editManual, acceptReviewCandidate, confirmScope, proposeAdjustment, submitAdjustment, dismissAdjustment } from '../../review/public.ts';
 import type { PlanningCollaborators } from '../../planning/public.ts';
 import { handler, id, version } from './common.ts';
 import { planItem } from './planning.ts';
 
 export function reviewHandlers(ports: PlanningCollaborators) {
   return {
+    'review.adjustment.dismiss': handler(z.object({ adjustmentId: id, expectedVersion: version }).strict(), dismissAdjustment),
     'review.manual.edit': handler(z.object({ documentId: id, expectedVersion: version, entryId: id, text: z.string(), remove: z.boolean() }).strict(), editManual),
     'review.refresh': handler(z.object({ scope: z.object({ period: z.enum(['DAILY', 'WEEKLY']), date: z.string(), goalId: id.nullable(), slot: id }).strict(),
       expectedVersion: version, manualText: z.string().nullable(), manualFinal: z.boolean() }).strict(), refreshReview),

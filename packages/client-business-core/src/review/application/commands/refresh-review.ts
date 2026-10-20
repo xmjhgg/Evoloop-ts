@@ -4,12 +4,13 @@ import { expected, revision } from '../../../application/ports/entity.ts';
 import type { ReviewComponent, ReviewDocument, ReviewScope } from '../../domain/model.ts';
 import { collectInput, documentId } from '../../domain/collect-input.ts';
 import { advanceReviewTokens } from '../../domain/advance-tokens.ts';
+import { requireReviewAccess } from '../../domain/scope-access.ts';
 
 export function refreshReview(tx: Transaction, context: ExecutionContext, input: {
   scope: ReviewScope; expectedVersion: string; manualText: string | null; manualFinal: boolean;
 }): ReviewDocument {
   requireThat(input.scope.date <= businessDate(context.now), 'FUTURE_REVIEW');
-  requireThat(input.scope.slot !== 'HEALTH' || context.healthAllowed, 'PURPOSE_REQUIRED');
+  requireReviewAccess(tx, context, input.scope.slot);
   requireThat(!input.manualFinal || input.manualText?.trim(), 'MANUAL_JUDGMENT_REQUIRED');
   const repository = tx.store('review'), id = documentId(input.scope), previous = repository.get<ReviewDocument>('document', id);
   expected(previous, input.expectedVersion);

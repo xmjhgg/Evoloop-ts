@@ -35,5 +35,5 @@ export interface Adjustment extends Entity {
   readonly sources: SourceSet;
   readonly weekId: string;
   readonly changes: readonly { itemId: string; oldValue: PlanItem; proposed: PlanItem; reason: string }[];
-  readonly status: 'READY' | 'SUBMITTED' | 'DISMISSED';
+  readonly status: 'READY' | 'SUBMITTED' | 'DISMISSED' | 'STALE';
 }

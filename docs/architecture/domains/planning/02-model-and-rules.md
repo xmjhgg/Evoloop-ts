@@ -29,3 +29,5 @@ classDiagram
 PublishableRangePolicy 只允许未来、未开始、无实际范围；CrossGoalConflictPolicy 返回具体冲突，用户选择，不自动排程。WorkoutPrescriptionPolicy 校验动作顺序/名称/数量单位/休息；LearningPrescriptionPolicy 按独立单位。NutritionTargetPolicy 无批准方法/必要参数不生成个性化数值；MealAllocationPolicy 显式未知、未分配和一致性；FitnessRestrictionPolicy 返回 ALLOWED/WARN/BLOCKED/INFORMATION_REQUIRED，不让用户本地开关或 AI 越过阻断。
 
 调整以 oldValue/newValue/reason/affectedDate 三方合并，逐周处理，KEEP_CURRENT/USE_PROPOSED/CUSTOM 明确选择。合并保存草案不发布，源失效不改已发布未来计划。
+
+2026-10-20：NutritionTarget 增加可选餐次分配，已知数值校验总和/超额，未知和未分配独立。当天首次摄入后仅可在总量及原目标修订不变时调整未开始/未摄入餐次，仍须完整审查与显式发布；历史餐次修订继续参与保护。发布和调整同时检查已发布原开始时间，不能把已开始的跨夜项目改成未来开始来解锁。重复日总量/睡眠槽和重复合并选择明确拒绝。个性化公式、宏量冲突阈值和健身政策没有因此获准。

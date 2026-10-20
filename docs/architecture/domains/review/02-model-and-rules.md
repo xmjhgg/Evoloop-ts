@@ -24,3 +24,5 @@ DailyConclusion 每账户/日唯一，GoalWeeklyReview 每账户/目标/周唯�
 训练四状态、摄入已记录小计/未知/餐覆盖、睡眠起床日、身体时间单位、学习各单位分别对照。无基准为 NO_BASELINE；事实移日/原基准不匹配时 comparability=UNAVAILABLE，不造达标率。未来/休息/暂停按适用范围排除分母；共享事实总览按 factId 去重。AI 不修改确定性 metric/coverage。
 
 AdjustmentSuggestion GENERATING → READY/FAILED/STALE，DISMISSED 或逐周 SUBMITTED；每条有原值/新值/理由/影响日期/statementRef。提交前再次核验最新确认与规划限制，只合并未来无实际范围。保存/确认/历史纠正不自动改已发布计划。
+
+2026-10-20 实现增量：review-metrics-v2 已实现原目标修订的计划对照、分维度应登记/漏记/未来/休息/暂停、实际动作/时长、独立学习单位、睡眠完成状态、营养区间与逐日覆盖、同单位身体描述，以及周输入的逐日日结论状态。无时段当前日不提前记为漏记，过日后才进入分母。来源变化同事务生成/刷新日摘要并更新已有依赖周，保留人工历史且不恢复旧确认。旧指标版本和损坏冻结输入不能授予最新确认/接纳资格；决定见 [ADR-006](../../adr/ADR-006-deterministic-review-derivation.md)。

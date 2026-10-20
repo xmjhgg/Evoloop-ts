@@ -1,2 +1,5 @@
+# Keep source and generated checks identical on Windows and CI.
+* text=auto eol=lf
+
 # Preserve archived document bytes for the recorded SHA-256 checks.
 docs/migration/legacy/** -text

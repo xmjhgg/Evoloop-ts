@@ -6,7 +6,9 @@ import { amount, handler, id, nullableId, version } from './common.ts';
 export const prescription = z.object({ title: id, startAt: z.string().nullable(), minutes: amount.nullable(),
   actions: z.array(z.object({ id, name: id, sets: version, quantity: amount, unit: z.enum(['REP', 'SECOND', 'MINUTE']), restSeconds: amount }).strict()),
   learning: z.object({ topic: id, unit: z.enum(['MINUTE', 'PAGE', 'QUESTION']).nullable(), quantity: amount.nullable(), outcome: z.string() }).strict().nullable(),
-  nutrition: z.object({ energy: amount.nullable(), protein: amount.nullable(), carbohydrate: amount.nullable(), fat: amount.nullable(), unit: z.literal('kcal/g') }).strict().nullable() }).strict();
+  nutrition: z.object({ energy: amount.nullable(), protein: amount.nullable(), carbohydrate: amount.nullable(), fat: amount.nullable(), unit: z.literal('kcal/g'),
+    meals: z.array(z.object({ mealCode: z.enum(['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK']), startAt: z.string().nullable(), description: z.string(),
+      energy: amount.nullable(), protein: amount.nullable(), carbohydrate: amount.nullable(), fat: amount.nullable() }).strict()).max(4).optional() }).strict().nullable() }).strict();
 export const planItem = z.object({ id, revisionId: id, goalRevisionId: id, businessDate: z.string(),
   kind: z.enum(['TRAINING', 'LEARNING', 'SLEEP', 'NUTRITION_TOTAL', 'REST']), disposition: z.enum(['PLANNED', 'REMOVED', 'SUSPENDED']), prescription }).strict();
 const draftChanges = z.array(planItem.omit({ revisionId: true, goalRevisionId: true }).extend({ id: nullableId })).max(200);

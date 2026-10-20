@@ -1,4 +1,4 @@
-export type { Goal, PlanItem, Prescription, WeekPlan, Protection, BaselineRef } from './domain/model.ts';
+export type { Goal, PlanItem, Prescription, WeekPlan, Protection, BaselineRef, NutrientAmounts, MealAllocation, NutritionTarget } from './domain/model.ts';
 export type { PlanningCollaborators } from './ports/collaboration.ts';
 export { saveGoal } from './application/commands/save-goal.ts';
 export { patchWeek } from './application/commands/patch-week.ts';
@@ -6,7 +6,10 @@ export { reviewWeek, acceptPlanCandidate } from './application/commands/review-w
 export { publishWeek } from './application/commands/publish-week.ts';
 export { protectBaseline } from './application/commands/protect-baseline.ts';
 export { changeGoalState } from './application/commands/change-goal-state.ts';
-export { goals, weeks, applicableItems } from './application/queries/plans.ts';
+export { goals, weeks, applicableItems, dailyPlanBaselines, goalRevision } from './application/queries/plans.ts';
+export { mealAllocation } from './domain/meal-allocation.ts';
+export { validateNutritionReallocation } from './domain/nutrition-reallocation.ts';
+export { validatePublishableRange } from './domain/range-policy.ts';
 export { mergeAdjustment } from './application/commands/merge-adjustment.ts';
 export type { AdjustmentMerge } from './application/commands/merge-adjustment.ts';
 export { validatePlanningImport } from './application/queries/validate-import.ts';

@@ -2,6 +2,8 @@
 
 2026-10-17：苹果客户端已新增 8 个实际 Screen 与独立 Feature/Model、Gateway、平台适配。下表列页面职责，下方列实际代码；小程序仍是目录目标。静态映射与 Hermes 构建不能代替 iOS 真机交互验收。
 
+2026-10-20 共享核心提供新增标签/份量输入、基准选择、餐次分配和日周指标/覆盖；本次未新增 Screen 或表单控件。原事实保存路径已经触发同事务摘要派生；新增核心输入和指标展示仍须分别接入对应 Feature，再做端上验收，见[本轮记录](../verification/20261020-shared-core.md)。
+
 | 页面/路由槽 | Screen | 区块 | 独立 Feature | Gateway / 共享能力 | 关键交互验收 |
 | --- | --- | --- | --- | --- | --- |
 | today | TodayScreen | Header、GoalOverview、Training、Learning、Sleep、Nutrition、DailyReview、SyncHint | today-overview、training-record、learning-record、sleep-record、food-draft、intake-confirmation、review-note、review-confirmation、sync-status | 本地 get-today-workspace；execution 四类事实/摄入命令；review 补充/确认 | 训练/学习/睡眠/饮食分别提交；单目标展开，左右对照；保存失败保留输入；今日与复盘同对象 |

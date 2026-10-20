@@ -9,13 +9,28 @@ export interface Goal extends Entity {
   readonly endDate: string;
   readonly status: 'ACTIVE' | 'PAUSED' | 'PENDING_REPLAN' | 'ARCHIVED';
 }
+export interface NutrientAmounts {
+  readonly energy: string | null;
+  readonly protein: string | null;
+  readonly carbohydrate: string | null;
+  readonly fat: string | null;
+}
+export interface MealAllocation extends NutrientAmounts {
+  readonly mealCode: 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK';
+  readonly startAt: string | null;
+  readonly description: string;
+}
+export interface NutritionTarget extends NutrientAmounts {
+  readonly unit: 'kcal/g';
+  readonly meals?: readonly MealAllocation[] | undefined;
+}
 export interface Prescription {
   readonly title: string;
   readonly startAt: string | null;
   readonly minutes: string | null;
   readonly actions: readonly { id: string; name: string; sets: string; quantity: string; unit: 'REP' | 'SECOND' | 'MINUTE'; restSeconds: string }[];
   readonly learning: { topic: string; unit: 'MINUTE' | 'PAGE' | 'QUESTION' | null; quantity: string | null; outcome: string } | null;
-  readonly nutrition: { energy: string | null; protein: string | null; carbohydrate: string | null; fat: string | null; unit: 'kcal/g' } | null;
+  readonly nutrition: NutritionTarget | null;
 }
 export interface PlanItem {
   readonly id: string;

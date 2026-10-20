@@ -15,10 +15,10 @@ export function saveObservation(tx: Transaction, context: ExecutionContext, inpu
   expected(previous, input.expectedVersion);
   requireThat(previous?.status !== 'REMOVED', 'FACT_REMOVED');
   requireThat(!previous || previous.kind === input.kind, 'FACT_KIND_MISMATCH');
-  const day = businessDate(input.observedAt);
-  requireThat(input.observedAt <= context.now, 'FUTURE_FACT');
+  const observedAt = input.remove && previous ? previous.observedAt : input.observedAt, day = businessDate(observedAt);
+  requireThat(observedAt <= context.now, 'FUTURE_FACT');
   if (!input.remove) {
-    requireThat(Object.values(input.values).some(item => item.value !== null), input.kind === 'MEASUREMENT' ? 'EMPTY_MEASUREMENT' : 'EMPTY_BODY_STATE');
+    requireThat(Object.values(input.values).some(item => item.value !== null && item.value !== 'UNKNOWN'), input.kind === 'MEASUREMENT' ? 'EMPTY_MEASUREMENT' : 'EMPTY_BODY_STATE');
     for (const item of Object.values(input.values)) {
       requireThat(item.unit.trim().length > 0, 'UNIT_REQUIRED');
       if (item.value !== null && input.kind === 'MEASUREMENT') nonnegative(item.value);
@@ -28,7 +28,7 @@ export function saveObservation(tx: Transaction, context: ExecutionContext, inpu
     }
   }
   const entity: Observation = { ...revision(context, 'observation', previous), kind: input.kind,
-    status: input.remove ? 'REMOVED' : 'ACTIVE', observedAt: input.observedAt, businessDate: day,
+    status: input.remove ? 'REMOVED' : 'ACTIVE', observedAt, businessDate: day,
     values: input.remove && previous ? previous.values : input.values };
   repository.save('observation', entity);
   const keys = [...new Set([day, previous?.businessDate ?? day])].map(value => 'profile:BODY_DAY:' + value);

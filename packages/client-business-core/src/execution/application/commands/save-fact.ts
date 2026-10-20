@@ -7,7 +7,7 @@ import { validateFact } from '../../domain/fact-policy.ts';
 
 export function saveFact(tx: Transaction, context: ExecutionContext, input: {
   id: string | null; expectedVersion: string; businessDate: string; data: Fact['data'];
-  planItemIds: readonly string[]; remove: boolean;
+  planItemIds: readonly string[]; remove: boolean; baselineMode?: 'AUTO' | 'SELECTED' | 'UNPLANNED' | undefined;
 }): Fact {
   const repository = tx.store('execution'), previous = input.id ? repository.get<Fact>('fact', input.id) : null;
   requireThat(!input.id || previous, 'NOT_FOUND');
@@ -17,8 +17,11 @@ export function saveFact(tx: Transaction, context: ExecutionContext, input: {
   requireThat(!previous || previous.data.kind === input.data.kind, 'FACT_KIND_MISMATCH');
   requireThat(input.data.kind === 'LEARNING' || context.healthAllowed, 'PURPOSE_REQUIRED');
   const day = input.remove && previous ? previous.businessDate : validateFact(input.data, input.businessDate, context.now);
-  const refs = protectBaseline(tx, context, day, input.data.kind, previous && day !== previous.originalDate ? [] : input.planItemIds);
-  if (input.data.kind === 'SLEEP' && !input.remove) protectBaseline(tx, context, businessDate(input.data.beginAt), 'SLEEP', []);
+  const moved = previous && day !== previous.originalDate;
+  const selectedIds = moved ? [] : previous ? previous.baselineRefs.map(ref => ref.item.id) : input.planItemIds;
+  const mode = moved ? 'UNPLANNED' : previous ? 'SELECTED' : input.baselineMode ?? 'AUTO';
+  const refs = protectBaseline(tx, context, day, input.data.kind, selectedIds, mode);
+  if (input.data.kind === 'SLEEP' && !input.remove) protectBaseline(tx, context, businessDate(input.data.beginAt), 'SLEEP', [], 'UNPLANNED');
   const entity: Fact = { ...revision(context, 'fact', previous), businessDate: day, status: input.remove ? 'REMOVED' : 'ACTIVE',
     data: input.remove && previous ? previous.data : input.data, baselineRefs: previous?.baselineRefs ?? refs,
     originalDate: previous?.originalDate ?? day, baselineDateMismatch: day !== (previous?.originalDate ?? day) };

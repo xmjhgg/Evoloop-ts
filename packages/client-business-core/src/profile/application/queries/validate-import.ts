@@ -11,7 +11,7 @@ export function validateProfileImport(tx: Transaction, now: string): void {
       requireThat(!slots.has(observation.businessDate), 'BODY_STATE_DAY_OCCUPIED');
       slots.add(observation.businessDate);
     }
-    requireThat(Object.values(observation.values).some(value => value.value !== null), 'EMPTY_OBSERVATION');
+    requireThat(Object.values(observation.values).some(value => value.value !== null && value.value !== 'UNKNOWN'), 'EMPTY_OBSERVATION');
     if (observation.kind === 'MEASUREMENT') for (const item of Object.values(observation.values)) if (item.value !== null) nonnegative(item.value);
   }
 }

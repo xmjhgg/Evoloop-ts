@@ -11,7 +11,15 @@ export function hasActual(tx: Transaction, day: string, kind: string): boolean {
   return tx.store('execution').all<Fact>('fact').some(fact => (fact.businessDate === day || fact.originalDate === day) && fact.data.kind === kind);
 }
 export function intakeSummary(tx: Transaction, day: string) {
-  const facts = factsOn(tx, day).filter(fact => fact.data.kind === 'MEAL');
+  return summarizeIntake(factsOn(tx, day));
+}
+export function hasMealActual(tx: Transaction, day: string, mealCode: string): boolean {
+  const repository = tx.store('execution');
+  return repository.all<Fact>('fact').some(fact => repository.history<Fact>('fact', fact.id).some(revision =>
+    (revision.businessDate === day || revision.originalDate === day) && revision.data.kind === 'MEAL' && revision.data.mealCode === mealCode));
+}
+export function summarizeIntake(input: readonly Fact[]) {
+  const facts = [...new Map(input.filter(fact => fact.status === 'ACTIVE' && fact.data.kind === 'MEAL').map(fact => [fact.id, fact])).values()];
   const lines: FoodLine[] = [], recordedMeals = new Set<string>();
   for (const fact of facts) if (fact.data.kind === 'MEAL') {
     lines.push(...fact.data.lines);

@@ -2,6 +2,8 @@
 
 本目录是新工程的设计与实现入口。2026-10-17 已进入本地核心与 Java 云服务编码阶段；实际能力及证据见[实现记录](verification/20261017-local-core-cloud.md)与[逐项实现映射](requirements/implementation-map.md)。领域设计中尚未覆盖的细节仍是目标，不视为自动交付。
 
+最新共享核心增量与验证见 [20261020-shared-core](verification/20261020-shared-core.md)；原生/供应商/数据库验证范围仍分别记录。
+
 | 位置 | 内容 |
 | --- | --- |
 | [requirements](requirements/README.md) | 沿用的业务需求、注册增量与首期范围差异 |

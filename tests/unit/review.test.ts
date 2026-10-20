@@ -17,7 +17,9 @@ test('empty-range tokens invalidate confirmed review on first new fact, preservi
   await execute('execution.fact.save', training);
   const changed = bus.transaction().store('review').get<ReviewDocument>('document', document.id)!;
   assert.deepEqual(confirmedComponents(bus.transaction(), changed), []);
-  assert.equal(changed.components[0]?.stale, true);
+  assert.equal(changed.components[0]?.stale, false);
+  assert.equal(changed.components[0]?.state, 'SUMMARY_ONLY');
+  assert.notEqual(changed.components[0]?.id, ids[0]);
   assert.equal(changed.manual[0]?.text, 'I will rest');
   assert.equal(bus.transaction().token('review:MANUAL:' + document.id + '|HEALTH'), manualToken);
 });

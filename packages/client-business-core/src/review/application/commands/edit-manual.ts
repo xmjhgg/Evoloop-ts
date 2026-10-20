@@ -4,6 +4,7 @@ import { expected, required, revision } from '../../../application/ports/entity.
 import type { ReviewDocument, ReviewComponent } from '../../domain/model.ts';
 import { collectInput } from '../../domain/collect-input.ts';
 import { advanceReviewTokens } from '../../domain/advance-tokens.ts';
+import { requireReviewAccess } from '../../domain/scope-access.ts';
 
 export function editManual(tx: Transaction, context: ExecutionContext, input: {
   documentId: string; expectedVersion: string; entryId: string; text: string; remove: boolean;
@@ -12,6 +13,7 @@ export function editManual(tx: Transaction, context: ExecutionContext, input: {
   expected(document, input.expectedVersion);
   const entry = document.manual.find(item => item.id === input.entryId);
   requireThat(entry && !entry.removed, 'MANUAL_ENTRY_NOT_FOUND');
+  requireReviewAccess(tx, context, entry.slot);
   requireThat(input.remove || input.text.trim(), 'EMPTY_MANUAL_NOTE');
   const key = 'review:MANUAL:' + document.id + '|' + entry.slot;
   tx.bump(key);

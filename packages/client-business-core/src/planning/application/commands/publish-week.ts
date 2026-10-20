@@ -1,9 +1,11 @@
-import { businessDate, digest, requireThat } from '@evoloop/kernel';
+import { digest, requireThat } from '@evoloop/kernel';
 import type { ExecutionContext, Transaction } from '../../../application/ports/public.ts';
 import { expected, required, revision } from '../../../application/ports/entity.ts';
-import type { Goal, Protection, WeekPlan } from '../../domain/model.ts';
+import type { Goal, WeekPlan } from '../../domain/model.ts';
 import type { PlanningCollaborators } from '../../ports/collaboration.ts';
 import { fitnessRestrictions } from '../../domain/fitness-restrictions.ts';
+import { validatePublishableRange } from '../../domain/range-policy.ts';
+import { validateDraftSlots } from '../../domain/draft-slots.ts';
 
 export function publishWeek(tx: Transaction, context: ExecutionContext, ports: PlanningCollaborators, input: {
   weekId: string; expectedVersion: string; explicitConfirm: boolean;
@@ -25,14 +27,12 @@ export function publishWeek(tx: Transaction, context: ExecutionContext, ports: P
     const item = week.draft.find(value => value.id === selection.itemId);
     requireThat(item, 'ITEM_NOT_FOUND');
     requireThat((published.get(item.id)?.revisionId ?? null) === selection.expectedPublishedRevision, 'VERSION_CONFLICT');
-    requireThat(item.businessDate > businessDate(context.now) && (!item.prescription.startAt || item.prescription.startAt > context.now), 'PROTECTED_RANGE');
-    const kind = item.kind === 'NUTRITION_TOTAL' ? 'MEAL' : item.kind;
-    requireThat(!ports.hasActual(tx, item.businessDate, kind), 'PROTECTED_RANGE');
-    requireThat(!repository.get<Protection>('guard', item.businessDate + '|' + kind), 'PROTECTED_RANGE');
+    validatePublishableRange(tx, context, ports, item, published.get(item.id));
     published.set(item.id, item);
     affected.push('planning:PLAN_DAY:' + item.businessDate, 'planning:PLAN_DAY:' + item.businessDate + ':' + item.kind);
     if (item.kind === 'REST') affected.push('planning:PLAN_DAY:' + item.businessDate + ':REST:' + goal.category);
   }
+  validateDraftSlots([...published.values()]);
   const entity: WeekPlan = { ...week, ...revision(context, 'week', week), published: [...published.values()], review: null,
     publications: [...week.publications, { id: context.id('publication'), at: context.now, items: [...published.values()] }] };
   repository.save('week', entity);

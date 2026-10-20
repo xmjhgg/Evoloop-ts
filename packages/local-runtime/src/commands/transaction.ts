@@ -6,6 +6,7 @@ import type { State } from '../ports/public.ts';
 
 export class LocalTransaction implements Transaction {
   readonly rows: Partial<Record<TableName, Row[]>>;
+  readonly changedTokens = new Set<string>();
   constructor(readonly accountId: string, rows: State['rows'], private revisionId: (label: string) => string) {
     this.rows = Object.fromEntries(Object.entries(rows).map(([key, values]) => [key, copy([...values])])) as Partial<Record<TableName, Row[]>>;
   }
@@ -42,6 +43,7 @@ export class LocalTransaction implements Transaction {
   }
   token(key: string): string { return this.rows['system.token']?.find(row => row.id === key)?.version ?? '0'; }
   bump(key: string): void {
+    this.changedTokens.add(key);
     this.save('system.token', { id: key, version: nextVersion(this.token(key)), revisionId: this.revisionId('token:' + key + ':' + this.token(key)) });
   }
   capture(keys: readonly string[], refs: SourceSet['refs'] = []): SourceSet {
