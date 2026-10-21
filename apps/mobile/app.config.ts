@@ -1,6 +1,7 @@
 export default {
   expo: {
     name: 'EvoLoop', slug: 'evoloop-two', version: '0.1.0', scheme: 'evoloop-two',
+    icon: './assets/icon.png',
     orientation: 'portrait', userInterfaceStyle: 'automatic', platforms: ['ios'],
     ios: {
       bundleIdentifier: 'com.evoloop.two', supportsTablet: true,
