@@ -1,0 +1,73 @@
+{
+  "recordedAt": "2026-10-21T10:06:59.333699+00:00",
+  "sourceCommit": "604ef905ebfda2d3a87f2c2c01010dcc3198f7cd",
+  "runId": 39579610120,
+  "runUrl": "https://github.com/xmjhgg/Evoloop-ts/actions/runs/39579610120",
+  "artifact": {
+    "id": 12336143213,
+    "name": "ios-device-unsigned-ipa",
+    "size_in_bytes": 11187964,
+    "digest": "sha256:b4f29f7296604b63b12067f453dbffe27965f78ef8ae94c43781fb7468a9645c",
+    "expires_at": "2026-10-28T09:54:56Z"
+  },
+  "ipa": {
+    "path": "apps/mobile/build/604ef90/EvoLoop-unsigned.ipa",
+    "bytes": 11296122,
+    "sha256": "4ab12e033fe03ad96a228c572f899e4f640ae1913fa7ab43ec017ebe5d94b508",
+    "bundleIdentifier": "com.evoloop.two",
+    "platforms": [
+      "iPhoneOS"
+    ],
+    "minimumIosVersion": "16.4",
+    "architecture": "arm64",
+    "machOBuildPlatforms": [
+      2
+    ],
+    "cryptIds": [
+      0
+    ],
+    "hasEmbeddedProvisioningProfile": false,
+    "hasAppSignatureDirectory": false,
+    "embeddedJsBytes": 2583155,
+    "embeddedJsSha256": "865695d4a9591710399adddbc20d7f9f395a9bb749f7390aef794779e9aee2a4"
+  },
+  "requestedEntitlements": {
+    "com.apple.developer.default-data-protection": "NSFileProtectionComplete"
+  },
+  "notRun": [
+    "Personal signing on Windows",
+    "Physical iPhone installation, launch and interaction",
+    "Native database, keychain, biometric and file behavior",
+    "Real AI provider and production deployment"
+  ],
+  "icons": [
+    {
+      "name": "Payload/EvoLoop.app/AppIcon60x60@2x.png",
+      "bytes": 20518,
+      "width": 120,
+      "height": 120,
+      "sha256": "08e428f4c023982e381bc4888f3d5e7ece2a1dbefd7d6264430288688b9f20cf",
+      "uniqueColors": 2930,
+      "decodedRgbaSha256": "306df84cb1362cecac92dbbff92f68d9c59e3cb3733fde52f7a1786d9acc2dbb",
+      "opaque": true
+    },
+    {
+      "name": "Payload/EvoLoop.app/AppIcon76x76@2x~ipad.png",
+      "bytes": 30863,
+      "width": 152,
+      "height": 152,
+      "sha256": "155eaa815747001495e7d175e88ff72ef8b40647c57cbedc43ec9334ea12a9a7",
+      "uniqueColors": 3805,
+      "decodedRgbaSha256": "81d3402c6f27c26d710247e837e7da14926621b57a53a7c586b79ce4bda683c3",
+      "opaque": true
+    }
+  ],
+  "selectedSourceIcon": {
+    "path": "apps/mobile/assets/icon.png",
+    "sha256": "dd822c1c80af4e0ec2a136ccc0d1a1649c9bf098a0836e327295f51d109f9d07",
+    "width": 1254,
+    "height": 1254,
+    "opaque": true
+  },
+  "iconVerification": "Decoded packaged iPhone and iPad icons, checked opacity and nonblank pixels; visually checked iPhone icon against selected design."
+}

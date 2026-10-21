@@ -20,7 +20,7 @@ Mac 上安装 Xcode 26.4+ / CocoaPods，再执行 `pnpm --filter @evoloop/mobile
 
 ## 应用图标
 
-使用用户选定的动漫「淬炼之拳」作为应用图标，源文件为 [assets/icon.png](assets/icon.png)，由 `app.config.ts` 的 `expo.icon` 引用。源图为 1254×1254 的不透明 RGB PNG，保留完整构图；Expo Prebuild 负责生成 iPhone/iPad 的原生图标资源。GitHub iOS 工作流的模拟器和真机任务均执行 Prebuild，再由 Xcode 编译图标并打包。更换图标后需要重新构建并安装新包。
+使用用户选定的动漫「淬炼之拳」作为应用图标，源文件为 [assets/icon.png](assets/icon.png)，由 `app.config.ts` 的 `expo.icon` 引用。源图为 1254×1254 的不透明 RGB PNG，保留完整构图；Expo Prebuild 负责生成 iPhone/iPad 的原生图标资源。GitHub iOS 工作流的模拟器和真机任务均执行 Prebuild，再由 Xcode 编译图标并打包。更换图标后需要重新构建并安装新包。已完成的原生构建及 IPA 图标核对见[验证记录](../../docs/verification/20261021-app-icon.md)。
 
 ## 已接入流程
 
